@@ -1,0 +1,6 @@
+<section id="i18n-switch" class="row text-center i18n-switch">
+        {{ range $index, $element := .Translations }}
+        {{if $index}} | {{end}}
+        <a href="{{ $element.Permalink }}">{{ $element.Language.LanguageName }}</a>
+        {{ end }}
+</section>

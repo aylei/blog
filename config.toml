@@ -1,0 +1,46 @@
+baseURL = "http://example.org/"
+theme = "goa"
+publishdir = "docs"
+DefaultContentLanguage = "cn"
+
+[params]
+authorimage = "me2.png"
+
+[params.social]
+github = "aylei"
+email = "rayingecho@gmail.com"
+
+[params.meta]
+description = "Aylei's Blog"
+keywords = "kubernetes,prometheus,golang,java,developer,agile"
+
+[params.extra]
+highlightjs = true
+
+[languages]
+  [languages.cn]
+    contentDir = "content/cn"
+    title = "吴叶磊"
+    weight = 1
+    languageCode = "zh-CN"
+    languageName = "中文"
+    [languages.cn.params]
+      dateformat = "2006年1月2日"
+      author = "吴叶磊"
+      description = "我是一名后端工程师，生活在杭州。写过一点中间件，鼓捣过 Kubernetes 和 Prometheus。在这里，我分享一些踩过的坑和吹过的牛逼。"
+    [languages.cn.params.extra]
+      copyright = "© 2018. 吴叶磊. [署名-非商业性使用-禁止演绎](https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh)."
+      poweredby = false
+  [languages.en]
+    contentDir = "content/en"
+    title = "Aylei Wu"
+    weight = 2
+    languageCode = "en-US"
+    languageName = "English"
+    [languages.en.params]
+      dateformat = "Jan 2, 2006"
+      author = "Aylei Wu"
+      description = "I am a software engineer, live in Hangzhou, China. I focus on middleware and cloud native. Here, I share my expirences and thoughts about coding and life."
+    [languages.en.params.extra]
+      copyright = "© 2018. Aylei Wu. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/)."
+      poweredby = false

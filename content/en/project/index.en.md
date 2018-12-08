@@ -1,1 +1,1 @@
-Projects I lead or contributed to, currently none.
+Projects I lead or contribute to, currently none.

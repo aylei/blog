@@ -2,6 +2,9 @@ baseURL = "https://aylei.github.io"
 theme = "goa"
 publishdir = "docs"
 DefaultContentLanguage = "cn"
+googleAnalytics="UA-130696996-1"
+enableRobotsTXT="true"
+disqusShortname="aylei-github-io"
 
 [params]
 authorimage = "me2.png"

@@ -73,7 +73,7 @@ html
 div.content
 {
     font-family: 'Helvetica', 'Roboto', 'Microsoft YaHei', '黑体', 'Lato', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: normal;
     line-height: 1.5;
 
@@ -89,9 +89,20 @@ div.content img
     margin-left: auto;
     margin-right: auto;
 }
+div.content blockquote
+{
+    font-size: 16px;
+}
 div.content a
 {
     color: #337ab7;
+}
+div.content h1,
+div.content h2,
+div.content h3
+{
+    margin-bottom: 16px;
+    margin-top: 16px;
 }
 .header-avatar
 {

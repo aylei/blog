@@ -13,4 +13,4 @@ showpagemeta: false
 
 * [aliyun-exporter](https://github.com/aylei/aliyun-exporter)，阿里云云监控的 Prometheus Exporter
 
-你也可以看看[过去的文章](/blog/)。
+你可以看看[以前写的文章](/blog/)。

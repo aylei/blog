@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://aylei.github.io/sitemap.xml

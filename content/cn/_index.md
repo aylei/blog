@@ -7,7 +7,7 @@ showpagemeta: false
 
 最近写的文章：
 
-* [Slab 导致的内存使用率报警](/blog/linux-memory-monitring)
+* [云原生下的日志新玩法: Grafana loki 源码解析](/blog/aggregation-api-server/)
 
 最近写的代码：
 

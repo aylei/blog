@@ -7,50 +7,50 @@ showpagemeta: true
 showcomments: true
 ---
 
-> 注意: `loki` 项目现在还处于早期阶段, 下面的内容可能会很快过时
+> 注意: loki 项目现在还处于早期阶段, 下面的内容可能会很快过时
 
-# `Loki` 简介
+# Grafna loki 简介
 
-在刚刚过去的 KubeCon 北美站上, Grafana 发布了名为 `loki` 的新项目, 用于解决云原生架构下的日志收集与存储问题. `loki` 受 `Prometheus` 影响很深, 它的 [landing page](https://grafana.com/loki) 上的标题是 `Loki. Prometheus-inspired logging for cloud natives.`, [github 主页](https://github.com/grafana/loki) 上的简介则是 `Like Prometheus, but for logs.`.
+在刚刚过去的 KubeCon 北美站上, Grafana 发布了名为 "loki" 的新项目, 用于解决云原生架构下的日志收集与存储问题. loki 受 Prometheus 影响很深, 它的 [landing page](https://grafana.com/loki) 上的标题是 `Loki. Prometheus-inspired logging for cloud natives.`, [github 主页](https://github.com/grafana/loki) 上的简介则是 `Like Prometheus, but for logs.`.
 
-目前 Grafana 已经发布了很详尽的 `loki` 相关资料, 包括:
+目前 Grafana 已经发布了很详尽的 loki 相关资料, 包括:
 
 * [KubeCon 的 Slides](https://speakerdeck.com/davkal/on-the-path-to-full-observability-with-oss-and-launch-of-loki)
 * [design doc](https://docs.google.com/document/d/11tjK_lvp1-SVsFZjgOTr1vV3-q6vBAsZYIQ5ZeYBkyM/view)
 * [一篇介绍性的 Blog](https://grafana.com/blog/2018/12/12/loki-prometheus-inspired-open-source-logging-for-cloud-natives/)
 * [Github 主页上的 Getting Started](https://github.com/grafana/loki#getting-started)
 
-这些资料已经把 `loki` 的设计意图,架构,用法都讲得很清楚了, 假如你时间有限, 那么读一下 blog 就基本了解 `loki` 的全貌了. 下面就不再重复这些低信息量的内容, 从代码层面来看看 `loki` 有什么独到之处.
+这些资料已经把 loki 的设计意图,架构,用法都讲得很清楚了, 假如你时间有限, 那么读一下 blog 就基本了解 loki 的全貌了. 下面就不再重复这些低信息量的内容, 从代码层面来看看 loki 有什么独到之处.
 
 # Cortex
 
-分析 `loki` 代码之前, 不得不先提一下 [cortex](https://github.com/cortexproject/cortex) 项目. `cortex` 是一个 Prometheus 的 Remote Backend, 核心价值是为 Prometheus 添加了水平扩展和(廉价的)指标长期存储能力. cortex 的完整设计可以看看它的[设计白皮书](https://docs.google.com/document/d/1C7yhMnb1x2sfeoe45f4mnnKConvroWhJ8KQZwIHJOuw/edit#heading=h.nimsq29kl184), 这里摘几个要点:
+分析 loki 代码之前, 不得不先提一下 [cortex](https://github.com/cortexproject/cortex) 项目. `cortex` 是一个 Prometheus 的 Remote Backend, 核心价值是为 Prometheus 添加了水平扩展和(廉价的)指标长期存储能力. cortex 的完整设计可以看看它的[设计白皮书](https://docs.google.com/document/d/1C7yhMnb1x2sfeoe45f4mnnKConvroWhJ8KQZwIHJOuw/edit#heading=h.nimsq29kl184), 这里摘几个要点:
 
 * 扩展: 读写分离, 写入端分两层, 第一层 `distributor` 做一致性哈希, 将负载分发到第二层 `ingester` 上, `ingester` 在内存中缓存 Metrics 数据, 异步写入 Storage Backend
 * 易于维护: 所有节点无状态, 随时可以迁移扩展
 * 成本: 以 `chunk` 作为基本存储对象, 可以用廉价的对象存储(比如 S3)来作为 Storage Backend
 
-`loki` 和 `cortex` 的作者都是 [tomwilkie](https://github.com/tomwilkie), `loki` 也完全沿用了 `cortex` 的`distributor`,`ingester`,`querier`,`chunk` 这一套. 
+loki 和 `cortex` 的作者都是 [tomwilkie](https://github.com/tomwilkie), loki 也完全沿用了 `cortex` 的`distributor`, `ingester`, `querier`, `chunk` 这一套. 
 
 # Loki Overview
 
-在 `cortex` 体系中, `Prometheus` 只是一个 Metrics 采集器: 收集指标, 然后扔给 `cortex`. 我们只要把 `Prometheus` 这个组件替换成采集日志的 `Promtail`, 就(差不多)得到了 `loki`:
+在 `cortex` 体系中, Prometheus 只是一个 Metrics 采集器: 收集指标, 然后扔给 `cortex`. 我们只要把 Prometheus 这个组件替换成采集日志的 `Promtail`, 就(差不多)得到了 loki:
 
 ![loki](/img/loki/loki-arch.png)
 
-这个架构图与 [cortex 的架构图](https://github.com/cortexproject/cortex/blob/master/docs/architecture.md) 相差无几. 唯一不同的是 `Prometheus` 可以部署一个远端集群中, 而 `Promtail` 由于需要做日志文件收集, 必须部署到所有需要日志收集的 Node 上去.
+这个架构图与 [cortex 的架构图](https://github.com/cortexproject/cortex/blob/master/docs/architecture.md) 相差无几. 唯一不同的是 Prometheus 可以部署在一个远端集群中, 而 `Promtail` 必须部署到所有需要日志收集的 Node 上去.
 
-目前 `loki` 的运行模式还是 `All in One` 的, `distributor`,`querier`,`ingester`这些组件全都跑在 `loki` 主进程里. 不过这些组件之间的交互全都通过 gRPC 完成, 因此只要稍加改造就能作为一个分布式系统来破. 另外, 当组件拆分开之后, `distributor` 的副本之间还需要共享同一个 `hash ring`, 这时, `hash ring` 会存储到外部的 `Consul` 之后.
+目前 loki 的运行模式还是 `All in One` 的, 即`distributor`, `querier`, `ingester`这些组件全都跑在 loki 主进程里. 不过这些组件之间的交互全都通过 gRPC 完成, 因此只要稍加改造就能作为一个分布式系统来跑. 
 
 # Promtail 日志采集
 
-`promtail` 可以理解为采集日志的 "Prometheus". 它最巧妙的设计是完全复用了 `Prometheus` 的服务发现机制与 label 机制. 
+`promtail` 可以理解为采集日志的 "Prometheus". 它最巧妙的设计是完全复用了 Prometheus 的服务发现机制与 label 机制. 
 
-以 Kubernetes 服务发现为例, `Prometheus` 可以通过 `Pod` 的 `Annotations` 与 `Labels` 等信息来确定 `Pod` 是否需要抓取指标, 假如要的话 `Pod` 的指标暴露在哪个端口上, 以及这个 `Pod` 本身有哪些 label, 即 target label.
+以 Kubernetes 服务发现为例, Prometheus 可以通过 `Pod` 的 `Annotations` 与 `Labels` 等信息来确定 `Pod` 是否需要抓取指标, 假如要的话 `Pod` 的指标暴露在哪个端口上, 以及这个 `Pod` 本身有哪些 label, 即 target label.
 
-确定了这些信息之后, `Prometheus` 就可以去拉应用的指标了. 同时, 这些指标都会被打上 target label, 用于标注指标的来源. 等到在查询的时候, 我们就可以通过 target label, 比方说 `pod_name=foo-123512` 或 `service=user-service` 来获取特定的一个或一组 `Pod` 上的指标信息.
+确定了这些信息之后, Prometheus 就可以去拉应用的指标了. 同时, 这些指标都会被打上 target label, 用于标注指标的来源. 等到在查询的时候, 我们就可以通过 target label, 比方说 `pod_name=foo-123512` 或 `service=user-service` 来获取特定的一个或一组 `Pod` 上的指标信息.
 
-`promtail` 是一样的道理. 它也是通过 `Pod` 的一些元信息来确定该 `Pod` 的日志文件位置, 同时为日志打上特定的 target label. 但要注意, 这个 label 不是标注在每一行日志事件上的, 而是被标注在"整个日志"上的. 这里"整个日志"在 `loki` 中抽象为 `stream`(日志流). 这就是 `loki` 文档中所说的"不索引日志, 只索引日志流". 最终在查询端, 我们通过这些 label 就可以快速查询一个或一组特定的 `stream`.
+`promtail` 是一样的道理. 它也是通过 `Pod` 的一些元信息来确定该 `Pod` 的日志文件位置, 同时为日志打上特定的 target label. 但要注意, 这个 label 不是标注在每一行日志事件上的, 而是被标注在"整个日志"上的. 这里"整个日志"在 loki 中抽象为 `stream`(日志流). 这就是 loki 文档中所说的"不索引日志, 只索引日志流". 最终在查询端, 我们通过这些 label 就可以快速查询一个或一组特定的 `stream`.
 
 服务发现部分的代码非常直白, 可以去 `pkg/promtail/targetmanager.go` 中自己看一下, 提两个实现细节:
 
@@ -61,7 +61,7 @@ showcomments: true
  
 1. 用 `fsnotify` 监听对应目录下的文件创建与删除(处理 log rolling)
 2. 对每个活跃的日志文件起一个 goroutine 进行类似 `tail -f` 的读取, 读取到的内容发送给 `channel`
-3. 一个单独的 goroutine 会解析 `channel` 中的日志行, 分批发送给 `loki` 的 backend
+3. 一个单独的 goroutine 会解析 `channel` 中的日志行, 分批发送给 loki 的 backend
 
 ## 日志采集分析
 
@@ -134,7 +134,7 @@ func (t *tailer) run() {
 ```
 这里直接调用了 `hpcloud/tail` 这个包来完成文件的 tail 操作. `hpcloud/tail` 的内部实现中, 在读到 EOF 之后, 同样调用了 `fsnotify` 来获取新内容写入的通知. `fsnotify` 这个包内部则是依赖了 `inotify_init` 和 `inotify_add_watch` 这两个系统调用, 可以参考[inotify](http://man7.org/linux/man-pages/man7/inotify.7.html).
 
-最后是日志发送, 这里有一个单独的 goroutine 会读取所有 tailer 通过 channel 传过来的日志(`Entry`对象), 然后按批发送给 `loki`:
+最后是日志发送, 这里有一个单独的 goroutine 会读取所有 tailer 通过 channel 传过来的日志(`Entry`对象), 然后按批发送给 loki:
 
 ```go
 for {
@@ -176,13 +176,13 @@ for {
     }
 }
 ``` 
-这段代码中出现了 `Entry`(一条日志) 的 label, 看上去好像和一开始说的 "`loki`只索引日志流" 自相矛盾. 但其实这里只是代码上的实现细节, `Entry` 的 label 完全来自于服务发现, 最后发送时, label 也只是用于标识 `Stream`, 与上层抽象完全符合.
+这段代码中出现了 `Entry`(一条日志) 的 label, 看上去好像和一开始说的 "loki只索引日志流" 自相矛盾. 但其实这里只是代码上的实现细节, `Entry` 的 label 完全来自于服务发现, 最后发送时, label 也只是用于标识 `Stream`, 与上层抽象完全符合.
 
 另外, 用 `channel` + `select` 写 batch 逻辑真的挺优雅, 简单易读.
 
 ## 一些问题
 
-目前 `promtail` 的代码还完全不到 production-ready, 它的本地没有 buffer, 并且没有处理 back pressure. 假设 `loki` 的流量太大处理不过来了, 那么 `promtail` 日志发送失败或超时直接就会丢日志. 同时, 文件读取位置, LAG(当前行数和文件最新行数的距离) 这些关键的监控指标都没暴露出来, 这是一个提 PR 的好时机.
+目前 `promtail` 的代码还完全不到 production-ready, 它的本地没有 buffer, 并且没有处理 back pressure. 假设 loki 的流量太大处理不过来了, 那么 `promtail` 日志发送失败或超时直接就会丢日志. 同时, 文件读取位置, LAG(当前行数和文件最新行数的距离) 这些关键的监控指标都没暴露出来, 这是一个提 PR 的好时机.
 
 # Loki Backend
 
@@ -277,7 +277,7 @@ func (s *stream) Push(_ context.Context, entries []logproto.Entry) error {
 	return nil
 }
 ```
-这个过程会将原本 `Entry[]` 形式的日志流整理成 `Chunk[]`形式的日志流, `Chunk` 其实就是多条日志构成的压缩包. 转成 `Chunk` 的意义是可以直接存入对象存储, 而对象存储是最便宜的(便宜是 `loki` 的核心目标之一).
+这个过程会将原本 `Entry[]` 形式的日志流整理成 `Chunk[]`形式的日志流, `Chunk` 其实就是多条日志构成的压缩包. 转成 `Chunk` 的意义是可以直接存入对象存储, 而对象存储是最便宜的(便宜是 loki 的核心目标之一).
 
 同时, 这里也会维护倒排索引, 目前的倒排索引是 `in memory` 的, 分布式的情况下可以存储到外部的 KVStore.
 
@@ -408,8 +408,8 @@ func (i *heapIterator) Next() bool {
 
 # 结语
 
-写源码分析的文章还是挺累的, 虽然前面说了不拾人牙慧, 但最后还是要重复一下 Grafana 官方已经说了的一些要点, 那就是 `loki` 的思路和 `ELK` 这样的思路确实完全不同. `loki` 不索引日志内容大大减轻了存储成本, 同时聚焦于 `distribute grep`, 而不再考虑各种分析,报表的花架子, 也让"日志"的作用更为专一: 服务于可观察性. 
+写源码分析的文章还是挺累的, 虽然前面说了不拾人牙慧, 但最后还是要重复一下 Grafana 官方已经说了的一些要点, 那就是 loki 的思路和 `ELK` 这样的思路确实完全不同. loki 不索引日志内容大大减轻了存储成本, 同时聚焦于 `distribute grep`, 而不再考虑各种分析,报表的花架子, 也让"日志"的作用更为专一: 服务于可观察性. 
 
-另外, `Grafana loki` 为 `Grafana` 生态填上了可观察性中的重要一环, logging. 再加上早已成为 CloudNative 中可观察性实时标准的 `Prometheus` + `Grafana` Stack, `Grafana` 生态已经只缺 Trace 这一块了(而且 Slides 中提到已经在做了). `Grafana` 生态未来可期.
+另外, `Grafana loki` 为 `Grafana` 生态填上了可观察性中的重要一环, logging. 再加上早已成为 CloudNative 中可观察性实时标准的 Prometheus + `Grafana` Stack, `Grafana` 生态已经只缺 Trace 这一块了(而且 Slides 中提到已经在做了). `Grafana` 生态未来可期.
 
 最后想说的是, 现今摩尔定律已近失效, 没有了每年翻一番的硬件性能, 整个后端架构需要更精细化地运作. 像以前那样用昂贵的全文索引或者列式存储直接存大量低价值的日志信息(99%没人看)已经不合时宜了. 在程序的运行信息("日志")和埋点,用户行为等业务信息(也是"日志")之间进行业务,抽象与架构上的逐步切分, 让各自的架构适应到各自的 ROI 最大的那个点上, 会是未来的趋势, 而 `Grafana Loki` 则恰到好处地把握住了这个趋势.

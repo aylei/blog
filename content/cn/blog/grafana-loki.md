@@ -9,7 +9,7 @@ showcomments: true
 
 > 注意: loki 项目现在还处于早期阶段, 下面的内容可能会很快过时
 
-# Grafna loki 简介
+# Grafana loki 简介
 
 在刚刚过去的 KubeCon 北美站上, Grafana 发布了名为 "loki" 的新项目, 用于解决云原生架构下的日志收集与存储问题. loki 受 Prometheus 影响很深, 它的 [landing page](https://grafana.com/loki) 上的标题是 `Loki. Prometheus-inspired logging for cloud natives.`, [github 主页](https://github.com/grafana/loki) 上的简介则是 `Like Prometheus, but for logs.`.
 

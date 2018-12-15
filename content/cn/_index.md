@@ -7,7 +7,7 @@ showpagemeta: false
 
 最近写的文章：
 
-* [云原生下的日志新玩法: Grafana loki 源码解析](/blog/aggregation-api-server/)
+* [云原生下的日志新玩法: Grafana loki 源码解析](/blog/grafana-loki/)
 
 最近写的代码：
 

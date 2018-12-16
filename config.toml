@@ -19,6 +19,7 @@ keywords = "kubernetes,prometheus,golang,java,developer,agile"
 
 [params.extra]
 highlightjs = true
+highlightjslanguages = [ "go", "js", "python" ]
 
 [languages]
   [languages.cn]
@@ -35,6 +36,8 @@ highlightjs = true
       copyright = "© 2018. 吴叶磊. [署名-非商业性使用-禁止演绎](https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh)."
       poweredby = false
       highlightjs = true
+      highlightjslanguages = [ "go", "js", "python" ]
+      highlightjsstyle = "atom-one-light"
   [languages.en]
     contentDir = "content/en"
     title = "Aylei Wu"
@@ -49,3 +52,5 @@ highlightjs = true
       copyright = "© 2018. Aylei Wu. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/)."
       poweredby = false
       highlightjs = true
+      highlightjslanguages = [ "go", "js", "python" ]
+      highlightjsstyle = "atom-one-light"

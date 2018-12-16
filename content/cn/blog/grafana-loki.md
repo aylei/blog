@@ -86,7 +86,7 @@ for {
         case fsnotify.Remove:
             tailer, ok := t.tails[event.Name]
             if ok {
-            	// 关闭 tailer
+                // 关闭 tailer
                 helpers.LogError("stopping tailer", tailer.stop)
                 delete(t.tails, event.Name)
             }
@@ -103,7 +103,7 @@ for {
 
 ```go
 func newTailer() {
-	tail := tail.TailFile(path, tail.Config{
+    tail := tail.TailFile(path, tail.Config{
         Follow: true,
         Location: &tail.SeekInfo{
             Offset: positions.Get(path),
@@ -111,15 +111,15 @@ func newTailer() {
         },
     })
    
-	tailer := ...
-	go tailer.run()
+    tailer := ...
+    go tailer.run()
 }
 
 func (t *tailer) run() {
-	for {
+    for {
         select {
         case <-positionWait.C:
-        	// 定时同步当前读取位置
+            // 定时同步当前读取位置
             pos := t.tail.Tell()
             t.positions.Put(t.path, pos)
     
@@ -138,13 +138,13 @@ func (t *tailer) run() {
 
 ```go
 for {
-	// 每次发送之后要重置计时器
+    // 每次发送之后要重置计时器
     maxWait.Reset(c.cfg.BatchWait)
     select {
     case <-c.quit:
         return
     case e := <-c.entries:
-    	// Batch 足够大之后, 执行发送逻辑
+        // Batch 足够大之后, 执行发送逻辑
         if batchSize+len(e.Line) > c.cfg.BatchSize {
             c.send(batch)
             // 重置 Batch
@@ -152,7 +152,7 @@ for {
             batch = map[model.Fingerprint]*logproto.Stream{}
         }
 
-    	// 收到 Entry, 先写进 Batch 当中
+        // 收到 Entry, 先写进 Batch 当中
         batchSize += len(e.Line)
         
         // 每个 entry 要根据 label 放进对应的日志流(Stream)中
@@ -167,7 +167,7 @@ for {
         stream.Entries = append(stream.Entries, e.Entry)
         
     case <-maxWait.C:
-    	// 到达每个批次的最大等待时间, 同样执行发送
+        // 到达每个批次的最大等待时间, 同样执行发送
         if len(batch) > 0 {
             c.send(batch);
             batchSize = 0
@@ -195,17 +195,17 @@ for {
 ```go
 // 一次写入请求, 包含多段日志流
 type PushRequest struct {
-	Streams []*Stream `protobuf:"bytes,1,rep,name=streams" json:"streams,omitempty"`
+    Streams []*Stream `protobuf:"bytes,1,rep,name=streams" json:"streams,omitempty"`
 }
 // 一段日志流, 包含它的 label, 以及这段日志流当中的每个日志事件: Entry
 type Stream struct {
-	Labels  string  `protobuf:"bytes,1,opt,name=labels,proto3" json:"labels,omitempty"`
-	Entries []Entry `protobuf:"bytes,2,rep,name=entries" json:"entries"`
+    Labels  string  `protobuf:"bytes,1,opt,name=labels,proto3" json:"labels,omitempty"`
+    Entries []Entry `protobuf:"bytes,2,rep,name=entries" json:"entries"`
 }
 // 一个日志事件, 包含时间戳与内容
 type Entry struct {
-	Timestamp time.Time `protobuf:"bytes,1,opt,name=timestamp,stdtime" json:"timestamp"`
-	Line      string    `protobuf:"bytes,2,opt,name=line,proto3" json:"line,omitempty"`
+    Timestamp time.Time `protobuf:"bytes,1,opt,name=timestamp,stdtime" json:"timestamp"`
+    Line      string    `protobuf:"bytes,2,opt,name=line,proto3" json:"line,omitempty"`
 }
 ```
 
@@ -215,7 +215,7 @@ type Entry struct {
 streams := make([]streamTracker, len(req.Streams))
 keys := make([]uint32, 0, len(req.Streams))
 for i, stream := range req.Streams {
-	// 获取每个 stream 的 label hash
+    // 获取每个 stream 的 label hash
     keys = append(keys, tokenFor(userID, stream.Labels))
     streams[i].stream = stream
 }
@@ -235,8 +235,8 @@ for i, replicationSet := range replicationSets {
 }
 
 for ingester, samples := range samplesByIngester {
-	// 每组 Stream[] 又作为一个 PushRequest, 下发给对应的 ingester 节点
-	d.sendSamples(localCtx, ingester, samples, &tracker)
+    // 每组 Stream[] 又作为一个 PushRequest, 下发给对应的 ingester 节点
+    d.sendSamples(localCtx, ingester, samples, &tracker)
 }
 ```
 
@@ -244,77 +244,82 @@ for ingester, samples := range samplesByIngester {
 
 ## ingester
 
-`ingester` 接收 `distributor` 下发的 `PushRequest`, 也就是多段日志流. 在 `ingester` 内部会先将这些"收到的日志流" Append 到"内存中的日志流". 同时会有一组 `goroutine` 异步将"内存中的日志流"存储到对象存储当中:
+`ingester` 接收 `distributor` 下发的 `PushRequest`, 也就是多段日志流(`[]Entry`). 在 `ingester` 内部会先将收到的 `[]Entry` Append 到内存中的 Chunk 流(`[]Chunk`). 同时会有一组 `goroutine` 异步将 Chunk 流存储到对象存储当中:
 
-第一个 Append 过程很关键(代码有简化):
+![loki-ingester](/img/loki/loki-ingester.png)
+
+第一个 Append 过程很关键(代码有简化): 
 ```go
 func (i *instance) Push(ctx context.Context, req *logproto.PushRequest) error {
-	for _, s := range req.Streams {
-		// 将收到的日志流 Append 到内存中的日志流上, 同样地, 日志流按 label hash 索引
-		fp := client.FastFingerprint(req.labels)
-		stream, ok := i.streams[fp]
-		if !ok {
-			stream = newStream(fp, req.labels)
-			// 这个过程中, 还会维护日志流的倒排索引(label -> stream)
-			i.index.Add(labels, fp)
-			i.streams[fp] = stream
-		}
-		stream.Push(ctx, s.Entries)
-	}
-	return nil
+    for _, s := range req.Streams {
+        // 将收到的日志流 Append 到内存中的日志流上, 同样地, 日志流按 label hash 索引
+        fp := client.FastFingerprint(req.labels)
+        stream, ok := i.streams[fp]
+        if !ok {
+            stream = newStream(fp, req.labels)
+            // 这个过程中, 还会维护日志流的倒排索引(label -> stream)
+            i.index.Add(labels, fp)
+            i.streams[fp] = stream
+        }
+        stream.Push(ctx, s.Entries)
+    }
+    return nil
 }
 
 func (s *stream) Push(_ context.Context, entries []logproto.Entry) error {
-	for i := range entries {
-		// 假如当前 Chunk 已经关闭或者已经到达设定的最大 Chunk 大小, 则再创建一个新的 Chunk
-		if s.chunks[0].closed || !s.chunks[0].chunk.SpaceFor(&entries[i]) {
-			s.chunks = append(s.chunks, chunkDesc{
-				chunk: chunkenc.NewMemChunk(chunkenc.EncGZIP),
-			})
-		}
-		s.chunks[len(s.chunks)-1].chunk.Append(&entries[i])
-	}
-	return nil
+    for i := range entries {
+        // 假如当前 Chunk 已经关闭或者已经到达设定的最大 Chunk 大小, 则再创建一个新的 Chunk
+        if s.chunks[0].closed || !s.chunks[0].chunk.SpaceFor(&entries[i]) {
+            s.chunks = append(s.chunks, chunkDesc{
+                chunk: chunkenc.NewMemChunk(chunkenc.EncGZIP),
+            })
+        }
+        s.chunks[len(s.chunks)-1].chunk.Append(&entries[i])
+    }
+    return nil
 }
 ```
-这个过程会将原本 `Entry[]` 形式的日志流整理成 `Chunk[]`形式的日志流, `Chunk` 其实就是多条日志构成的压缩包. 转成 `Chunk` 的意义是可以直接存入对象存储, 而对象存储是最便宜的(便宜是 loki 的核心目标之一).
+`Chunk` 其实就是多条日志构成的压缩包. 将日志压成 `Chunk` 的意义是可以直接存入对象存储, 而对象存储是最便宜的(便宜是 loki 的核心目标之一). 在 一个 `Chunk` 到达指定大小之前它就是 open 的, 会不断 Append 新的日志(`Entry`) 到里面. 而在达到大小之后, `Chunk` 就会关闭等待持久化(强制持久化也会关闭 Chunk, 比如关闭 `ingester` 实例时就会关闭所有的 Chunk并持久化). 
 
-同时, 这里也会维护倒排索引, 目前的倒排索引是 `in memory` 的, 分布式的情况下可以存储到外部的 KVStore.
+对 Chunk 的大小控制是一个调优要点:
+ 
+* 假如 Chunk 容量过小: 首先是导致压缩效率不高. 同时也会增加整体的 Chunk 数量, 导致倒排索引过大. 最后, 对象存储的操作次数也会变多, 带来额外的性能开销;
+* 假如 Chunk 过大: 一个 Chunk 的 open 时间会更长, 占用额外的内存空间, 同时, 也增加了丢数据的风险. 最后, Chunk 过大也会导致查询读放大, 比方说查一小时的数据却要下载整天的 Chunk;
 
-异步存储过程就很简单了:
+丢数据问题: 所有 Chunk 要在 close 之后才会进行存储. 因此假如 ingester 异常宕机, 处于 open 状态的 Chunk, 以及 close 了但还没有来得及持久化的 Chunk 数据都会丢失. 从这个角度来说, ingester 其实也是 stateful 的, 在生产中可以通过给 ingester 跑多个副本来解决这个问题. 另外, `ingester` 里似乎还没有写 WAL, 这感觉是一个 PR 机会, 可以练习一下写存储的基本功.
+
+异步存储过程就很简单了, 是一个一对多的生产者消费者模型:
 
 ```go
 // 一个 goroutine 将所有的待存储的 chunks enqueue
 func (i *Ingester) sweepStream(instance *instance, stream *stream, immediate bool) {
 
     // 有一组待存储的队列(默认16个), 取模找一个队列把要存储的 chunk 的引用塞进去
-	flushQueueIndex := int(uint64(stream.fp) % uint64(i.cfg.ConcurrentFlushes))
-	firstTime, _ := stream.chunks[0].chunk.Bounds()
-	i.flushQueues[flushQueueIndex].Enqueue(&flushOp{
-		model.TimeFromUnixNano(firstTime.UnixNano()), instance.instanceID,
-		stream.fp, immediate,
-	})
+    flushQueueIndex := int(uint64(stream.fp) % uint64(i.cfg.ConcurrentFlushes))
+    firstTime, _ := stream.chunks[0].chunk.Bounds()
+    i.flushQueues[flushQueueIndex].Enqueue(&flushOp{
+        model.TimeFromUnixNano(firstTime.UnixNano()), instance.instanceID,
+        stream.fp, immediate,
+    })
 }
 
 // 每个队列都有一个 goroutine 作为消费者在 dequeue
 func (i *Ingester) flushLoop(j int) {
-	for {
-		op := i.flushQueues[j].Dequeue()
-		// 实际的存储操作在这个方法中, 存储完成后, Chunk 会被清理掉
-		i.flushUserSeries(op.userID, op.fp, op.immediate)
+    for {
+        op := i.flushQueues[j].Dequeue()
+        // 实际的存储操作在这个方法中, 存储完成后, Chunk 会被清理掉
+        i.flushUserSeries(op.userID, op.fp, op.immediate)
 
         // 存储失败的 chunk 会重新塞回队列中
-		if op.immediate && err != nil {
-			op.from = op.from.Add(flushBackoff)
-			i.flushQueues[j].Enqueue(op)
-		}
-	}
+        if op.immediate && err != nil {
+            op.from = op.from.Add(flushBackoff)
+            i.flushQueues[j].Enqueue(op)
+        }
+    }
 }
 ```
 
-这里有一个实现细节, `ingester` 里的所有 `Chunk` 会在 `chunk-retain-time` 之后才进行存储, 这个值默认是 15 分钟. 这么做的原因应该是为了加速热点数据的读取(真正被人看的日志中, 有99%都是生成后的一小段时间内被查看的). 因此 `ingester` 其实持有一部分未存储的日志, 从这个角度来讲, `ingester` 也是**有状态的**, 宕机会丢失数据. 当然, 实际维护中每个 `ingester` 节点会起多个副本集, 以此来保证高可用和数据不丢.
-
-另外, `ingester` 里似乎还没有写 WAL, 感觉又是一个 PR 机会了啊.
+最后是清理过程, 同样是一个单独的 goroutine 定时在跑. `ingester` 里的所有 `Chunk` 会在持久化之后隔一小段时间才被清理掉. 这个"一小段时间"由 `chunk-retain-time` 参数进行控制(默认 15 分钟). 这么做是为了加速热点数据的读取(真正被人看的日志中, 有99%都是生成后的一小段时间内被查看的).
 
 ## Querier
 
@@ -322,7 +327,7 @@ func (i *Ingester) flushLoop(j int) {
 
 > 这里的代码其实可以作为一个简单的面试题: 假如你的日志按 class 分成了上百个文件, 现在要将它们合并输出(按时间顺序), 你会怎么做?
 
-`lokit` 里用了堆, 当然, 时间正序就用最小堆, 时间逆序就用最大堆:
+`loki` 里用了堆, 时间正序就用最小堆, 时间逆序就用最大堆:
 
 ```go
 // 这部分代码实现了一个简单的二叉堆, MinHeap 和 MaxHeap 实现了相反的 `Less()` 方法
@@ -331,78 +336,78 @@ func (h iteratorHeap) Len() int            { return len(h) }
 func (h iteratorHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
 func (h iteratorHeap) Peek() EntryIterator { return h[0] }
 func (h *iteratorHeap) Push(x interface{}) {
-	*h = append(*h, x.(EntryIterator))
+    *h = append(*h, x.(EntryIterator))
 }
 func (h *iteratorHeap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	x := old[n-1]
-	*h = old[0 : n-1]
-	return x
+    old := *h
+    n := len(old)
+    x := old[n-1]
+    *h = old[0 : n-1]
+    return x
 }
 type iteratorMinHeap struct {
-	iteratorHeap
+    iteratorHeap
 }
 func (h iteratorMinHeap) Less(i, j int) bool {
-	return h.iteratorHeap[i].Entry().Timestamp.Before(h.iteratorHeap[j].Entry().Timestamp)
+    return h.iteratorHeap[i].Entry().Timestamp.Before(h.iteratorHeap[j].Entry().Timestamp)
 }
 type iteratorMaxHeap struct {
-	iteratorHeap
+    iteratorHeap
 }
 func (h iteratorMaxHeap) Less(i, j int) bool {
-	return h.iteratorHeap[i].Entry().Timestamp.After(h.iteratorHeap[j].Entry().Timestamp)
+    return h.iteratorHeap[i].Entry().Timestamp.After(h.iteratorHeap[j].Entry().Timestamp)
 }
 
 // 将一组 Stream 的 iterator 合并成一个 HeapIterator
 func NewHeapIterator(is []EntryIterator, direction logproto.Direction) EntryIterator {
-	result := &heapIterator{}
-	switch direction {
-	case logproto.BACKWARD:
-		result.heap = &iteratorMaxHeap{}
-	case logproto.FORWARD:
-		result.heap = &iteratorMinHeap{}
-	default:
-		panic("bad direction")
-	}
-	// pre-next each iterator, drop empty.
-	for _, i := range is {
-		result.requeue(i)
-	}
-	return result
+    result := &heapIterator{}
+    switch direction {
+    case logproto.BACKWARD:
+        result.heap = &iteratorMaxHeap{}
+    case logproto.FORWARD:
+        result.heap = &iteratorMinHeap{}
+    default:
+        panic("bad direction")
+    }
+    // pre-next each iterator, drop empty.
+    for _, i := range is {
+        result.requeue(i)
+    }
+    return result
 }
 
 func (i *heapIterator) requeue(ei EntryIterator) {
-	if ei.Next() {
-		heap.Push(i.heap, ei)
-		return
-	}
-	if err := ei.Error(); err != nil {
-		i.errs = append(i.errs, err)
-	}
-	helpers.LogError("closing iterator", ei.Close)
+    if ei.Next() {
+        heap.Push(i.heap, ei)
+        return
+    }
+    if err := ei.Error(); err != nil {
+        i.errs = append(i.errs, err)
+    }
+    helpers.LogError("closing iterator", ei.Close)
 }
 
 func (i *heapIterator) Next() bool {
-	if i.curr != nil {
-		i.requeue(i.curr)
-	}
-	if i.heap.Len() == 0 {
-		return false
-	}
-	i.curr = heap.Pop(i.heap).(EntryIterator)
-	currEntry := i.curr.Entry()
-	// keep popping entries off if they match, to dedupe
-	for i.heap.Len() > 0 {
-		next := i.heap.Peek()
-		nextEntry := next.Entry()
-		if !currEntry.Equal(nextEntry) {
-			break
-		}
+    if i.curr != nil {
+        i.requeue(i.curr)
+    }
+    if i.heap.Len() == 0 {
+        return false
+    }
+    i.curr = heap.Pop(i.heap).(EntryIterator)
+    currEntry := i.curr.Entry()
+    // keep popping entries off if they match, to dedupe
+    for i.heap.Len() > 0 {
+        next := i.heap.Peek()
+        nextEntry := next.Entry()
+        if !currEntry.Equal(nextEntry) {
+            break
+        }
 
-		next = heap.Pop(i.heap).(EntryIterator)
-		i.requeue(next)
-	}
-	return true
+        next = heap.Pop(i.heap).(EntryIterator)
+        i.requeue(next)
+    }
+    return true
 }
 ```
 

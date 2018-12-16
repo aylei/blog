@@ -240,7 +240,7 @@ for ingester, samples := range samplesByIngester {
 }
 ```
 
-在 `All in One` 的运行模式中, hash ring 直接存储在内存中. 在生产环境, 由于要起多个 `distributor` 节点做高可用, 这个 hash ring 会存储到外部的 Consul 集群中. 这对我们这种没有维护 Consul 的公司就很不友好了, 其实 Consul 本身就是一个基于 gossip 的 AP 系统, 那 `distributor` 之间自己实现一下 gossip 也完全可行.
+在 `All in One` 的运行模式中, hash ring 直接存储在内存中. 在生产环境, 由于要起多个 `distributor` 节点做高可用, 这个 hash ring 会存储到外部的 Consul 集群中.
 
 ## ingester
 

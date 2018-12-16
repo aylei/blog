@@ -415,6 +415,6 @@ func (i *heapIterator) Next() bool {
 
 写源码分析的文章还是挺累的, 虽然前面说了不拾人牙慧, 但最后还是要重复一下 Grafana 官方已经说了的一些要点, 那就是 loki 的思路和 `ELK` 这样的思路确实完全不同. loki 不索引日志内容大大减轻了存储成本, 同时聚焦于 `distribute grep`, 而不再考虑各种分析,报表的花架子, 也让"日志"的作用更为专一: 服务于可观察性. 
 
-另外, `Grafana loki` 为 Grafana 生态填上了可观察性中的重要一环, logging. 再加上早已成为 CloudNative 中可观察性事实标准的 Prometheus + Grafana Stack, Grafana 生态已经只缺 Trace 这一块了(而且 Slides 中提到已经在做了). Grafana 生态未来可期.
+另外, `Grafana loki` 为 Grafana 生态填上了可观察性中的重要一环, logging. 再加上早已成为 CloudNative 中可观察性事实标准的 Prometheus + Grafana Stack, Grafana 生态已经只缺 Trace 这一块了(他们的 Slides 中提到已经在做了), 未来可期.
 
 最后想说的是, 现今摩尔定律已近失效, 没有了每年翻一番的硬件性能, 整个后端架构需要更精细化地运作. 像以前那样用昂贵的全文索引或者列式存储直接存大量低价值的日志信息(99%没人看)已经不合时宜了. 在程序的运行信息("日志")和埋点,用户行为等业务信息(也是"日志")之间进行业务,抽象与架构上的逐步切分, 让各自的架构适应到各自的 ROI 最大的那个点上, 会是未来的趋势, 而 `Grafana Loki` 则恰到好处地把握住了这个趋势.

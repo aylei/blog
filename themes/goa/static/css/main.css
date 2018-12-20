@@ -62,7 +62,7 @@ html
 {
     overflow: auto;
 
-    max-width: 800px;
+    max-width: 900px;
     padding: 0 15px;
 }
 .content
@@ -137,7 +137,7 @@ div.content h3
 
 .header-container
 {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0;
     vertical-align: baseline;
 }

@@ -12,6 +12,7 @@ Recently wrote:
 
 Recently worked:
 
+* [kubectl-debug](https://github.com/aylei/kubectl-debug), Debug your pod by a new container with every troubleshooting tools pre-installed
 * [aliyun-exporter](https://github.com/aylei/aliyun-exporter), Prometheus Exporter for Alibaba Cloud.
 
 [Past posts](/en/blog/) are also available.

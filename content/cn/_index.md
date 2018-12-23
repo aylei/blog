@@ -11,6 +11,7 @@ showpagemeta: false
 
 最近写的代码：
 
-* [aliyun-exporter](https://github.com/aylei/aliyun-exporter)，阿里云云监控的 Prometheus Exporter
+* [kubectl-debug](https://github.com/aylei/kubectl-debug), 帮助你用一个 `kubectl debug` 命令轻松 debug 你的 POD
+* [aliyun-exporter](https://github.com/aylei/aliyun-exporter), 阿里云云监控的 Prometheus Exporter
 
-你可以看看[以前写的文章](/blog/)。
+你也可以看看[以前写的文章](/blog/)。

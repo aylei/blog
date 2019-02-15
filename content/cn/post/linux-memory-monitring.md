@@ -1,5 +1,5 @@
 ---
-title: "Slab 导致的内存使用率报警"
+title: "Linux Slab 导致的内存使用率误报警"
 date: 2018-11-27
 draft: false
 comments: true 

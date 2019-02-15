@@ -1,25 +1,52 @@
-baseURL = "https://aylei.github.io"
-theme = "goa"
-publishdir = "docs"
-DefaultContentLanguage = "cn"
-googleAnalytics="UA-130696996-1"
-enableRobotsTXT="true"
-disqusShortname="aylei-github-io"
+baseURL = "https://www.aleiwu.com"
+theme = "jane"
+defaultContentLanguage = "cn"
+googleAnalytics = "UA-130696996-1"
+enableRobotsTXT = true
+enableEmoji = true
+disqusShortname = "aylei-github-io"
+paginate = 5
+rssLimit = 20
+hasCJKLanguage = true
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
 
 [params]
-authorimage = "me2.png"
+  logoImage = "me.jpeg"
+  since = "2017"
+  homeFullContent = false
+  rssFullContent = true
+  archive-paginate = 10
+  dateFormatToUse = "2006-01-02"
+  moreMeta = true
+  showMenuLanguageChooser = true
+  showAuthorInfo = true
+  toc = true
+  photoswipe = true
+  keywords = ["cloudnative","devops","kubernetes","golang","java","programming"]
+  description = "Aylei Wu's blog, embracing cloud-native!"
 
 [params.social]
-github = "aylei"
-email = "rayingecho@gmail.com"
+  a-email = "mailto:rayingecho@email.com"
+  b-github = "https://github.com/aylei"
+  c-twitter = "https://localhost:1313"
+  e-linkedin = "https://localhost:1313"
+  d-zhihu = "https://localhost:1313"
 
 [params.meta]
-description = "Aylei's Blog"
-keywords = "kubernetes,prometheus,golang,java,developer,agile"
+  description = "Aylei's Blog"
+  keywords = "cloudnative,devops,kubernetes,prometheus,golang,java,programming"
 
 [params.extra]
-highlightjs = true
-highlightjslanguages = [ "go", "js", "python" ]
+  highlightjs = true
+  highlightjslanguages = [ "go", "js", "python", "rust" ]
+  highlightjsstyle = "atom-one-light"
+
+[params.commentCount.disqus]
+  enable = true
 
 [languages]
   [languages.cn]
@@ -28,29 +55,63 @@ highlightjslanguages = [ "go", "js", "python" ]
     weight = 1
     languageCode = "zh-CN"
     languageName = "中文"
+    [languages.cn.author]
+      name = "吴叶磊"
+    [[languages.cn.menu.main]]
+      name = "关于"
+      weight = 10
+      identifier = "about"
+      url = "/about"
+    [[languages.cn.menu.main]]
+      name = "归档"
+      weight = 20
+      identifier = "archives"
+      url = "/post/"
+    [[languages.cn.menu.main]]
+      name = "项目"
+      weight = 30
+      identifier = "projects"
+      url = "https://github.com/aylei"
     [languages.cn.params]
       dateformat = "2006年1月2日"
       author = "吴叶磊"
-      description = "我是一名后端工程师，生活在杭州。写过一点中间件，鼓捣过 Kubernetes 和 Prometheus。在这里，我分享一些踩过的坑和吹过的牛逼。"
-    [languages.cn.params.extra]
-      copyright = "© 2018. 吴叶磊. [署名-非商业性使用-禁止演绎](https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh)."
-      poweredby = false
-      highlightjs = true
-      highlightjslanguages = [ "go", "js", "python" ]
-      highlightjsstyle = "atom-one-light"
+      contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
   [languages.en]
     contentDir = "content/en"
     title = "Aylei Wu"
     weight = 2
     languageCode = "en-US"
     languageName = "English"
+    [languages.en.author]
+      name = "Aylei Wu"
+    [[languages.en.menu.main]]
+      name = "About"
+      weight = 10
+      identifier = "about"
+      url = "/about"
+    [[languages.en.menu.main]]
+      name = "Archives"
+      weight = 20
+      identifier = "archives"
+      url = "/post/"
+    [[languages.en.menu.main]]
+      name = "Projects"
+      weight = 30
+      identifier = "projects"
+      url = "https://github.com/aylei"
     [languages.en.params]
       dateformat = "Jan 2, 2006"
       author = "Aylei Wu"
-      description = "I am a software engineer, live in Hangzhou, China. I focus on middleware and cloud native. Here, I share my expirences and thoughts about coding and life."
-    [languages.en.params.extra]
-      copyright = "© 2018. Aylei Wu. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/)."
-      poweredby = false
-      highlightjs = true
-      highlightjslanguages = [ "go", "js", "python" ]
-      highlightjsstyle = "atom-one-light"
+      contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
+
+#### merely edit ####
+[params.publicCDN]
+    enable = false
+    jquery = '<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>'
+    slideout = '<script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>'
+    gitmentJS = '<script src="https://cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js" crossorigin="anonymous"></script>'
+    gitmentCSS = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css" crossorigin="anonymous">'
+    photoswipe = '<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.js" integrity="sha256-AC9ChpELidrhGHX23ZU53vmRdz3FhKaN9E28+BbcWBw=" crossorigin="anonymous"></script>'
+    photoswipeUI = '<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js" integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin="anonymous"></script>'
+    photoswipeCSS = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css" integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin="anonymous">'
+    photoswipeSKIN = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css" integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin="anonymous">'

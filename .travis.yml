@@ -13,7 +13,7 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  repo: aylei.github.io
+  repo: aylei/aylei.github.io
   target-branch: master
   github_token: $GH_TOKEN
   local_dir: public

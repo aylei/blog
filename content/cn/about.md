@@ -5,7 +5,7 @@ date: 2019-02-15T19:52:03+08:00
 keywords: ["吴叶磊", "Yelei Wu", "aylei"]
 contentCopyright: false
 toc: false
-comment: false
+comment: true
 ---
 
 你好！我是吴叶磊，认识我的人一般喊我阿磊。

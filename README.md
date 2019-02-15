@@ -15,3 +15,5 @@ To do:
 - [ ] Sync posts to Zhihu
 - [ ] Sync posts to Medium
 - [ ] Support email subscription (For now, You can transform RSS to email subscription by third-party service like IFTTT)
+
+Interested in my posts? Find me at aylei@twitter and rayingecho@gmail.com.

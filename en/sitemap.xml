@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://www.aleiwu.com/en/post/linux-memory-monitring/</loc>
+    <lastmod>2018-11-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.aleiwu.com/post/linux-memory-monitring/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.aleiwu.com/en/post/linux-memory-monitring/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://www.aleiwu.com/en/about/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.aleiwu.com/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.aleiwu.com/en/about/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://www.aleiwu.com/en/</loc>
+    <lastmod>2018-11-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.aleiwu.com/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.aleiwu.com/en/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://www.aleiwu.com/en/categories/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.aleiwu.com/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.aleiwu.com/en/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://www.aleiwu.com/en/post/</loc>
+    <lastmod>2018-11-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.aleiwu.com/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.aleiwu.com/en/post/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://www.aleiwu.com/en/tags/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.aleiwu.com/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.aleiwu.com/en/tags/"
+                />
+  </url>
+  
+</urlset>

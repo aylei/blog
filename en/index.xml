@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Aylei Wu</title>
+    <link>https://www.aleiwu.com/en/</link>
+    <description>Recent content on Aylei Wu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 27 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.aleiwu.com/en/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux Memory Alert Caused By Slab</title>
+      <link>https://www.aleiwu.com/en/post/linux-memory-monitring/</link>
+      <pubDate>Tue, 27 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aleiwu.com/en/post/linux-memory-monitring/</guid>
+      <description>Note: English is not my primary language. If you find the content confusing, you can email me for explanation.
+ buff/cache of free is not same as Buffer + Cached from /proc/meminfo. And the way we used to measure memory acutal usage percent is problematic.
+ Background Recently I encountered a colleague&amp;rsquo;s feedback:
+ &amp;lsquo;Memory usage percent greater than 90%&amp;rsquo; are reported by an alert, but we find that the actual usage is only 50%.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.aleiwu.com/en/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aleiwu.com/en/about/</guid>
+      <description>English is not my primary language. You can always refer to the Chinese version (translate it to your language, if necessary) if your are confused with my words when visiting this site.
+ I am a backend engineer, my work includes reading, communicating, thinking and sometimes, coding. I maintain an English version of all my posts with best effort, which is also a practice for my English writing.
+Recently wrote:</description>
+    </item>
+    
+  </channel>
+</rss>

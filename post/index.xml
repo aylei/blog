@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 吴叶磊</title>
+    <link>https://www.aleiwu.com/post/</link>
+    <description>Recent content in Posts on 吴叶磊</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 28 Jan 2019 22:52:03 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.aleiwu.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>写在19年初的后端社招面试经历(两年经验): 蚂蚁 头条 PingCAP</title>
+      <link>https://www.aleiwu.com/post/interview-experience/</link>
+      <pubDate>Mon, 28 Jan 2019 22:52:03 +0800</pubDate>
+      
+      <guid>https://www.aleiwu.com/post/interview-experience/</guid>
+      <description>去年（18年）年底想出来看看机会，最后很幸运地拿到了 PingCAP，今日头条的 offer 以及蚂蚁金服的口头 offer。想着可以总结一下经验，分享一下</description>
+    </item>
+    
+    <item>
+      <title>kubectl exec 是如何工作的</title>
+      <link>https://www.aleiwu.com/post/how-kubect-exec-works/</link>
+      <pubDate>Sat, 26 Jan 2019 22:52:03 +0800</pubDate>
+      
+      <guid>https://www.aleiwu.com/post/how-kubect-exec-works/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>云原生下的日志新玩法: Grafana loki 源码解析</title>
+      <link>https://www.aleiwu.com/post/grafana-loki/</link>
+      <pubDate>Fri, 14 Dec 2018 22:52:03 +0800</pubDate>
+      
+      <guid>https://www.aleiwu.com/post/grafana-loki/</guid>
+      <description>注意: loki 项目现在还处于早期阶段, 下面的内容可能会很快过时 Grafana loki 简介 在刚刚过去的 KubeCon 北美站上, Grafana 发布了名为 &amp;ldquo;loki&amp;rdquo; 的新项目, 用于解决云原生架构下的日志收</description>
+    </item>
+    
+    <item>
+      <title>Linux Slab 导致的内存使用率误报警</title>
+      <link>https://www.aleiwu.com/post/linux-memory-monitring/</link>
+      <pubDate>Tue, 27 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.aleiwu.com/post/linux-memory-monitring/</guid>
+      <description>free 命令的输出 buff/cache 部分并不等同于 /proc/meminfo 中的 Buffer + Cached。警报规则中最常见的内存使用率计算方式也存在一些问题。 背景 最近在整理监控，碰到一位同事反馈</description>
+    </item>
+    
+    <item>
+      <title>基于 Kafka 与 Debezium 构建实时数据管道</title>
+      <link>https://www.aleiwu.com/post/vimur/</link>
+      <pubDate>Wed, 06 Sep 2017 16:52:03 +0800</pubDate>
+      
+      <guid>https://www.aleiwu.com/post/vimur/</guid>
+      <description>前言 这篇文章我最初是发表于公司技术部公众号, 原题&amp;rdquo;实时数据管道探索&amp;rdquo;, 公开后就搬运到了自己的博客上, 基本上算是对自己</description>
+    </item>
+    
+  </channel>
+</rss>

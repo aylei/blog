@@ -46,7 +46,7 @@ hasCJKLanguage = true
   highlightjsstyle = "atom-one-light"
 
 [params.commentCount.disqus]
-  enable = true
+  enable = false
 
 [languages]
   [languages.cn]

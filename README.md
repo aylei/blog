@@ -16,4 +16,4 @@ To do:
 - [ ] Sync posts to Medium
 - [ ] Support email subscription (For now, You can transform RSS to email subscription by third-party service like IFTTT)
 
-Interested in my posts? Find me at aylei@twitter and rayingecho@gmail.com.
+Interested in my posts? Find me at [Aylei Wu@Twitter](https://twitter.com/AyleiWu) and [Yelei Wu@@linkedin](https://www.linkedin.com/in/yelei-wu-0850a5141/)

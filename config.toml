@@ -32,9 +32,9 @@ hasCJKLanguage = true
 [params.social]
   a-email = "mailto:rayingecho@email.com"
   b-github = "https://github.com/aylei"
-  c-twitter = "https://localhost:1313"
-  e-linkedin = "https://localhost:1313"
-  d-zhihu = "https://localhost:1313"
+  c-twitter = "https://twitter.com/AyleiWu"
+  e-linkedin = "https://www.linkedin.com/in/yelei-wu-0850a5141/"
+  d-zhihu = "https://www.zhihu.com/people/idanko"
 
 [params.meta]
   description = "Aylei's Blog"

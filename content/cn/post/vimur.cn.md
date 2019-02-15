@@ -2,9 +2,9 @@
 title: "基于 Kafka 与 Debezium 构建实时数据管道"
 date: 2017-09-06T16:52:03+08:00
 draft: false
-comments: true
-showpagemeta: true
-showcomments: true
+keywords: ["architecture", "database", "mysql", vimur", "debezium", "kafka", "binlog", "data pipeline", "stream compute"]
+tags: ["architecture", "database"]
+categories: ["architecture"]
 ---
 ## 前言
 

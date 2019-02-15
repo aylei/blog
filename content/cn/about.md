@@ -1,21 +1,27 @@
 ---
-showtitle: false
-showpagemeta: false
+title: 关于吴叶磊
+draft: false
+date: 2019-02-15T19:52:03+08:00
+keywords: ["吴叶磊", "Yelei Wu", "aylei"]
+contentCopyright: false
+toc: false
+comment: false
 ---
 
-我是一名后端工程师，主要工作是阅读、沟通、思考以及写一些代码。业余时间什么都干，包括在这个博客上写写东西。
+你好！我是吴叶磊，认识我的人一般喊我阿磊。
 
-最近参加了几家公司的面试，写了一点经验：
+最让我有成就感和满足感的事情是有人肯定我的价值。我曾经非常努力地去读书、打游戏、参加社团、写代码以及鼓捣各种业余爱好，主要都是为了追求肯定。然后我就发现，无论干哪方面的事情，获得肯定的最佳方法都是**为他人提供尽可能多的价值**——于是这个博客就诞生了：**在这里，我努力为你提供价值，以此来获得快乐、睡得更香。**
 
-* [写在19年初的后端社招面试经历(两年经验): 蚂蚁 头条 PingCAP](/blog/interview-experience)
+当然了，我不是你肚里的蛔虫，只能从我自己出发，将心比心，思考哪些东西是对你有价值的。这些东西可能包括：
 
-最近写的文章：
+* 我目前在[酷家乐](https://tech.kujiale.com/)担任后端工程师，做过中间件、云原生、监控警报相关的工作。我在这些方面都不是专家。但尺有所短，寸有所长，假如你是和我一样刚入门的工程师，那对你的很多问题我都是感同身受，非常理解的，这可能能给你在"权威指南"之外提供一个更亲切的技术视角；
+* 我在工作之余喜欢鼓捣中间件和编程语言（兴趣能够成为工作真的是很幸运）。同样的，在这些领域我也都是学徒（比如都2019年了我才给博客+1s），可只要有一些经验能够经过精炼压缩之后分享出来，那便至少有一些时效性价值。比如说我在搭建这个博客时，github pages 和 Cloudflare 已经有了很多更新，GG 第一页的搜索结果有不少都略显过时了；
+* 还有，写一些能解决特定问题的开源项目，这个就不用多说了。
 
-* [云原生下的日志新玩法: Grafana loki 源码解析](/blog/grafana-loki/)
+好了，希望这些我自己揣摩的这些东西能够真正对你产生帮助。假如你对我写的东西感兴趣，可以在 [Aylei Wu@Twitter](https://twitter.com/AyleiWu) 或 [Yelei Wu@Linkedin](https://www.linkedin.com/in/yelei-wu-0850a5141/) 上找到我，也可以直接在评论区或通过邮件与我交流，祝好！
 
-最近写的代码：
+最后给自己的一些项目打打广告：
 
 * [kubectl-debug](https://github.com/aylei/kubectl-debug), 帮助你用一个 `kubectl debug` 命令轻松 debug 你的 POD
 * [aliyun-exporter](https://github.com/aylei/aliyun-exporter), 阿里云云监控的 Prometheus Exporter
 
-你也可以看看[以前写的文章](/blog/)。

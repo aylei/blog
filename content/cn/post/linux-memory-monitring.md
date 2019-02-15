@@ -2,9 +2,9 @@
 title: "Linux Slab 导致的内存使用率误报警"
 date: 2018-11-27
 draft: false
-comments: true 
-showpagemeta: true
-showcomments: true
+keywords: ["monitoring","slab","memory","alerting","linux"]
+tags: ["observability", "monitoring"]
+categories: ["observability"]
 ---
 
 > `free` 命令的输出 `buff/cache` 部分并不等同于 `/proc/meminfo` 中的 `Buffer` + `Cached`。警报规则中最常见的内存使用率计算方式也存在一些问题。

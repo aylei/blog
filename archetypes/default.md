@@ -1,13 +1,20 @@
 ---
-title: "{{ replace .Name "-" " " | title }}"
+title: "{{ replace .TranslationBaseName "-" " " | title }}"
 date: {{ .Date }}
+lastmod: {{ .Date }}
 draft: true
-comments: true 
-slug: "" 
+keywords: []
+description: ""
 tags: []
 categories: []
+author: ""
+contentCopyright: true
+toc: true
+comment: true
 
-showpagemeta: true
-showcomments: true
+autoCollapseToc: false
+contentCopyright: false
+reward: false
+mathjax: false
 ---
 

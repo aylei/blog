@@ -2,9 +2,9 @@
 title: "写在19年初的后端社招面试经历(两年经验): 蚂蚁 头条 PingCAP"
 date: 2019-01-28T22:52:03+08:00
 draft: false
-comments: true
-showpagemeta: true
-showcomments: true
+keywords: ["interview", "pingcap", "antfinancial", "bytedance", "golang", "java", "algorithm"]
+tags: ["golang","java","algorithm"]
+categories: ["experience"]
 ---
 
 去年（18年）年底想出来看看机会，最后很幸运地拿到了 PingCAP，今日头条的 offer 以及蚂蚁金服的口头 offer。想着可以总结一下经验，分享一下自己这一段"骑驴找马"过的心路历程。当然，一家之言，难免粗浅，如有不妥，敬请指正。

@@ -35,6 +35,7 @@ hasCJKLanguage = true
   c-twitter = "https://twitter.com/AyleiWu"
   e-linkedin = "https://www.linkedin.com/in/yelei-wu-0850a5141/"
   d-zhihu = "https://www.zhihu.com/people/idanko"
+  f-leetcode = "https://leetcode.com/aleihanami/"
 
 [params.meta]
   description = "Aylei's Blog"

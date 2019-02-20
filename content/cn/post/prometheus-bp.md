@@ -3,6 +3,7 @@ title: "Prometheus 不完全避坑指南"
 date: 2019-02-16T16:00:05+08:00
 lastmod: 2019-02-16T16:00:05+08:00
 draft: false
+toc: true
 keywords: ["prometheus","observability","monitoring","best practive"]
 description: ""
 tags: ["prometheus","observability","monitoring"]

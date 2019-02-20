@@ -8,6 +8,11 @@ disqusShortname = "aylei-github-io"
 paginate = 5
 rssLimit = 20
 hasCJKLanguage = true
+pygmentsCodeFences = true # Enable syntax highlighting with GitHub flavoured code fences
+pygmentsUseClasses = true # Use CSS classes to format highlighted code
+pygmentsCodefencesGuessSyntax = true
+pygmentsOptions = "linenos=table"
+pygmentsStyle = "colorful"
 
 [sitemap]
   changefreq = "weekly"
@@ -35,16 +40,10 @@ hasCJKLanguage = true
   c-twitter = "https://twitter.com/AyleiWu"
   e-linkedin = "https://www.linkedin.com/in/yelei-wu-0850a5141/"
   d-zhihu = "https://www.zhihu.com/people/idanko"
-  f-leetcode = "https://leetcode.com/aleihanami/"
 
 [params.meta]
   description = "Aylei's Blog"
   keywords = "cloudnative,devops,kubernetes,prometheus,golang,java,programming"
-
-[params.extra]
-  highlightjs = true
-  highlightjslanguages = [ "go", "js", "python", "rust" ]
-  highlightjsstyle = "atom-one-light"
 
 [params.commentCount.disqus]
   enable = false
@@ -59,15 +58,20 @@ hasCJKLanguage = true
     [languages.cn.author]
       name = "吴叶磊"
     [[languages.cn.menu.main]]
-      name = "关于"
+      name = "文章"
       weight = 10
-      identifier = "about"
-      url = "/about"
-    [[languages.cn.menu.main]]
-      name = "归档"
-      weight = 20
       identifier = "archives"
       url = "/post/"
+    [[languages.cn.menu.main]]
+      name = "想法"
+      weight = 20
+      identifier = "moments"
+      url = "/moments/"
+    [[languages.cn.menu.main]]
+      name = "关于"
+      weight = 30
+      identifier = "about"
+      url = "/about"
     [[languages.cn.menu.main]]
       name = "项目"
       weight = 30
@@ -86,15 +90,15 @@ hasCJKLanguage = true
     [languages.en.author]
       name = "Aylei Wu"
     [[languages.en.menu.main]]
-      name = "About"
-      weight = 10
-      identifier = "about"
-      url = "/about"
-    [[languages.en.menu.main]]
       name = "Archives"
-      weight = 20
+      weight = 10
       identifier = "archives"
       url = "/post/"
+    [[languages.en.menu.main]]
+      name = "About"
+      weight = 30
+      identifier = "about"
+      url = "/about"
     [[languages.en.menu.main]]
       name = "Projects"
       weight = 30

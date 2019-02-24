@@ -3,8 +3,9 @@ title: "云原生下的日志新玩法: Grafana loki 源码解析"
 date: 2018-12-14T22:52:03+08:00
 draft: false
 keywords: ["loki","grafana","logging","observability"]
-tags: ["observability", "cloudnative", "monitoring"]
-categories: ["cloudnative","observability","architecture"]
+tags: ["cloudnative", "monitoring"]
+categories: [observability"]
+autoCollapseToc: false
 ---
 
 > 注意: loki 项目现在还处于早期阶段, 下面的内容可能会很快过时

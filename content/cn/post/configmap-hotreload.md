@@ -129,3 +129,10 @@ spec:
 上面就是我针对 `ConfigMap` 和 `Secret` 热更新总结的一些方案。最后我们选择的是使用 sidecar 进行热更新，因为这种方式更新配置带来的开销最小，我们也为此主动避免掉了"热更新环境变量这种场景"。
 
 当然了，配置热更新也完全可以不依赖 `ConfigMap`，Etcd + Confd, 阿里的 Nacos, 携程的 Apollo 包括不那么好用的 Spring-Cloud-Config 都是可选的办法。但它们各自也都有需要考虑的东西，比如 Etcd + Confd 就要考虑 Etcd 里的配置项变更怎么管理；Nacos, Apollo 这种则需要自己在 client 端进行代码集成。相比之下，对于刚起步的架构，用 k8s 本身的 `ConfigMap` 和 `Secret` 可以算是一种最快最通用的选择了。
+
+## Reference
+
+* [Facilitate ConfigMap rollouts / management](https://github.com/kubernetes/kubernetes/issues/22368)
+* [Feature request: A way to signal pods](https://github.com/kubernetes/kubernetes/issues/24957)
+* [Share Process Namespace between Containers in a Pod](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/)
+* [Configure a Pod to Use a ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)

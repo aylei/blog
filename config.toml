@@ -63,7 +63,7 @@ pygmentsStyle = "colorful"
       identifier = "archives"
       url = "/post/"
     [[languages.cn.menu.main]]
-      name = "想法"
+      name = "随笔"
       weight = 20
       identifier = "moments"
       url = "/moments/"

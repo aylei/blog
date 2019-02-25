@@ -35,7 +35,7 @@ pygmentsStyle = "colorful"
   description = "Aylei Wu's blog, embracing cloud-native!"
 
 [params.social]
-  a-email = "mailto:rayingecho@email.com"
+  a-email = "mailto:rayingecho@gmail.com"
   b-github = "https://github.com/aylei"
   c-twitter = "https://twitter.com/AyleiWu"
   e-linkedin = "https://www.linkedin.com/in/yelei-wu-0850a5141/"

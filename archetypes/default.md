@@ -4,17 +4,11 @@ date: {{ .Date }}
 lastmod: {{ .Date }}
 draft: true
 keywords: []
-description: ""
 tags: []
 categories: []
-author: ""
-contentCopyright: true
+author: "alei"
 toc: true
 comment: true
-
 autoCollapseToc: false
-contentCopyright: false
-reward: false
-mathjax: false
 ---
 

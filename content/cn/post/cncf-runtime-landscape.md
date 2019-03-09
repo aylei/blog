@@ -22,7 +22,7 @@ autoCollapseToc: false
 
 我们从最常见的 runtime 方案 Docker 说起, 现在 Kubelet 和 Docker 的集成还是挺啰嗦的:
 
-![dockershim](http://ww1.sinaimg.cn/large/bf52b77fly1g0vplwjaxjj20qz06t0tk.jpg)
+![](http://ww1.sinaimg.cn/large/bf52b77fly1g0ws7jziucj21hy0dmtb0.jpg)
 
 当 Kubelet 想要创建一个**容器**时, 有这么几步:
 
@@ -100,15 +100,15 @@ Orchestration API -> Container API -> Kernel API
 
 containerd 1.0 中, 对 CRI 的适配通过一个单独的进程 `CRI-containerd` 来完成:
 
-![](http://ww1.sinaimg.cn/large/bf52b77fly1g0wmjch93hj20op06b74n.jpg)
+![](http://ww1.sinaimg.cn/large/bf52b77fly1g0ws7vtgq2j21de0cmgmo.jpg)
 
 containerd 1.1 中做的又更漂亮一点, 砍掉了 CRI-containerd 这个进程, 直接把适配逻辑作为插件放进了 containerd 主进程中:
 
-![](http://ww1.sinaimg.cn/large/bf52b77fly1g0wmlq9cooj20nc06i74p.jpg)
+![](http://ww1.sinaimg.cn/large/bf52b77fly1g0ws87espcj21ao0d00tz.jpg)
 
 但在 containerd 做这些事情之情, 社区就已经有了一个更为专注的 cri-runtime: [CRI-O](https://github.com/kubernetes-sigs/cri-o), 它非常纯粹, 就是兼容 CRI 和 OCI, 做一个 k8s 专用的运行时:
 
-![](http://ww1.sinaimg.cn/large/bf52b77fly1g0wmpnkcs5j20nb06iaao.jpg)
+![](http://ww1.sinaimg.cn/large/bf52b77fly1g0ws8dqqsoj21am0d0q4q.jpg)
 
 其中 `conmon` 就对应 containerd-shim, 大体意图是一样的.
 
@@ -144,7 +144,9 @@ Kata 告诉你, 虚拟机没那么邪恶, 只是以前没玩好:
 
 这就要说回我们前面讲到的 CRI 中针对 PodSandbox (容器沙箱环境) 的操作接口了. 第一节中, 我们刻意简化了场景, 只考虑创建一个**容器**, 而没有讨论创建一个**Pod**. 大家都知道, 真正启动 Pod 里定义的容器之前, kubelet 会先启动一个 infra 容器, 并执行 /pause 让 infra 容器的主进程永远挂起. 这个容器存在的目的就是维持住整个 pod 的各种 namespace, 真正的业务容器只要加入 infra 容器的 network 等 namespace 就能实现对应 namespace 的共享. 而 infra 容器创造的这个共享环境则被抽象为 **PodSandbox**. 每次 kubelet 在创建 Pod 时, 就会先调用 CRI 的 `RunPodSandbox` 接口启动一个沙箱环境, 再调用 `CreateContainer` 在沙箱中创建容器.
 
-这里就已经说出答案了, 对于 Kata Container 而言, 只要在 `RunPodSandbox` 调用中创建一个 VM, 之后再往 VM 中添加容器就可以了.
+这里就已经说出答案了, 对于 Kata Container 而言, 只要在 `RunPodSandbox` 调用中创建一个 VM, 之后再往 VM 中添加容器就可以了. 最后运行 Pod 的样子就是这样的:
+
+![](http://ww1.sinaimg.cn/large/bf52b77fly1g0ws90i7ttj21mq0d440r.jpg)
 
 说完了 Kata, 其实 gVisor 和 firecracker 都不言自明了, 大体上都是类似的, 只是:
 

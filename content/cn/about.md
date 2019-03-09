@@ -14,7 +14,7 @@ comment: true
 
 当然了，我不是你肚里的蛔虫，只能从我自己出发，将心比心，思考哪些东西是对你有价值的。这些东西可能包括：
 
-* 我目前在[酷家乐](https://tech.kujiale.com/)担任后端工程师，做过中间件、云原生、监控警报相关的工作。我在这些方面都不是专家。但尺有所短，寸有所长，假如你是和我一样刚入门的工程师，那对你的很多问题我都是感同身受，非常理解的，这可能能给你在"权威指南"之外提供一个更亲切的技术视角；
+* 我目前在[PingCAP](https://www.pingcap.com/)做 Cloud 方向的工作，之前则在 [酷家乐](https://tech.kujiale.com/) 工作过。整体做过中间件、云原生、监控警报相关的东西。我在这些方面都不是专家。但尺有所短，寸有所长，假如你是和我一样刚入门的工程师，那对你的很多问题我都是感同身受，非常理解的，这可能能给你在"权威指南"之外提供一个更亲切的技术视角；
 * 我在工作之余喜欢鼓捣中间件和编程语言（兴趣能够成为工作真的是很幸运）。同样的，在这些领域我也都是学徒（比如都2019年了我才给博客+1s），可只要有一些经验能够经过精炼压缩之后分享出来，那便至少有一些时效性价值。比如很多开源项目刚出来时文档都不够全，中文资料更是集体复制粘贴通稿，这时候我就很想找到几篇剖析这个项目的好文章——那我自己写几篇出来也不错吧？
 * 还有，写一些能解决特定问题的开源项目，这个就不用多说了。
 
@@ -22,8 +22,4 @@ comment: true
 
 假如你对我写的东西感兴趣，可以在 [Aylei Wu@Twitter](https://twitter.com/AyleiWu) 或 [Yelei Wu@Linkedin](https://www.linkedin.com/in/yelei-wu-0850a5141/) 上找到我，也可以直接在评论区或通过邮件与我交流，祝好！
 
-最后给自己的一些项目打打广告：
-
-* [kubectl-debug](https://github.com/aylei/kubectl-debug), 帮助你用一个 `kubectl debug` 命令轻松 debug 你的 POD
-* [aliyun-exporter](https://github.com/aylei/aliyun-exporter), 阿里云云监控的 Prometheus Exporter
-
+最后，我想向你安利一家公司 [PingCAP](https://www.pingcap.com/)，我们在北京, 上海, 硅谷, 杭州, 成都, 广州, 深圳都有 office 同时支持 Remote, 我们的分布式数据库(TiDB, golang), 分布式高性能强一致存储(TiKV, rust), 大数据分析, EE, QA 以及我所在的 Cloud 团队(Kubernetes)都在招人。假如你有想法一起来做世界领先的开源产品，可以投递简历到 wuyelei@pingcap.com，我会全力帮你内推!

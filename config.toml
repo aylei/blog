@@ -12,7 +12,7 @@ pygmentsCodeFences = true # Enable syntax highlighting with GitHub flavoured cod
 pygmentsUseClasses = true # Use CSS classes to format highlighted code
 pygmentsCodefencesGuessSyntax = true
 pygmentsOptions = "linenos=table"
-pygmentsStyle = "colorful"
+pygmentsStyle = "manni"
 
 [sitemap]
   changefreq = "weekly"

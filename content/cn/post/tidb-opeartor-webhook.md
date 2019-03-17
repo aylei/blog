@@ -88,7 +88,7 @@ spec:
 - `DefaultStorageClass`，为没有声明 storageClass 的 PVC 自动设置 storageClass
 - `ResourceQuota`，校验 Pod 的资源使用是否超出了对应 Namespace 的 Quota
 
-虽然说这是插件化的，但在 1.7 之前，所有的 plugin 都需要写到 apiserver 的代码中一起编译，很不灵活。而在 1.7 中 k8s 就引入了 [Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) 机制，允许用户向 apiserver 注册 webhook，而 apiserver 则通过 webhook 调用外部 server 来实现 filter 逻辑。1.9 中，这个特性进一步做了优化，把 webhook 分成了两类: MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook，顾名思义，前者就是操作 api 对象的，比如上文例子中的 `DefaultStroageClass`，而后者是校验 api 对象的，比如 `ResourceQuota`。拆分之后，apiserver 就能保证在校验(Validating)之前先做完所有的修改(Mutating)，下面这个示意图非常清晰:
+虽然说这是插件化的，但在 1.7 之前，所有的 plugin 都需要写到 apiserver 的代码中一起编译，很不灵活。而在 1.7 中 k8s 就引入了 [Dynamic Admission Control](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) 机制，允许用户向 apiserver 注册 webhook，而 apiserver 则通过 webhook 调用外部 server 来实现 filter 逻辑。1.9 中，这个特性进一步做了优化，把 webhook 分成了两类: `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook`，顾名思义，前者就是操作 api 对象的，比如上文例子中的 `DefaultStroageClass`，而后者是校验 api 对象的，比如 `ResourceQuota`。拆分之后，apiserver 就能保证在校验(Validating)之前先做完所有的修改(Mutating)，下面这个示意图非常清晰:
 
 ![](http://ww1.sinaimg.cn/large/bf52b77fly1g1644436v0j211s0bcabh.jpg)
 

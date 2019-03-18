@@ -4,6 +4,9 @@ date: 2019-03-17T15:42:40+08:00
 lastmod: 2019-03-17T15:42:40+08:00
 draft: false
 author: "alei"
+keywords: ["kubernetes", "tidb", "tidb-operator"]
+tags: ["kubernetes", "tidb"]
+categories: ["kubernetes"]
 toc: true
 comment: true
 autoCollapseToc: false

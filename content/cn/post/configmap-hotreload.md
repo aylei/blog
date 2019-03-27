@@ -78,7 +78,7 @@ data:
 
 Prometheus 的 Helm Chart 中使用的就是这种方式。这里有一个很实用的镜像叫做 [configmap-reload](https://github.com/jimmidyson/configmap-reload)，它会去 watch 本地文件的变更，并在发生变更时通过 HTTP 调用通知应用进行热更新。
 
-但这种方式存在一个问题：Sidecar 发送信号（Signal）的限制比较多，而很多开源组件比如 Fluentd，Nginx 都是依赖 SIGHUP 信号来进行热更新的。主要的限制在于，kubernetes 1.10 之前，并不支持 pod 中的容器共享同一个 pid namespace，因此 sidecar 也就无法向业务容器发送信号了。而在 1.10 之后，虽然支持了 pid 共享，但在共享之后 pid namespace 中的 1 号进程会变成基础的 `/pause` 进程，我们也就无法轻松定位到目标进行的 pid 了。
+但这种方式存在一个问题：Sidecar 发送信号（Signal）的限制比较多，而很多开源组件比如 Fluentd，Nginx 都是依赖 SIGHUP 信号来进行热更新的。主要的限制在于，kubernetes 1.10 之前，并不支持 pod 中的容器共享同一个 pid namespace，因此 sidecar 也就无法向业务容器发送信号了。而在 1.10 之后，虽然支持了 pid 共享，但在共享之后 pid namespace 中的 1 号进程会变成基础的 `/pause` 进程，我们也就无法轻松定位到目标进程的 pid 了。
 
 当然了，只要是 k8s 版本在 1.10 及以上并且开启了 `ShareProcessNamespace` 特性，我们多写点代码，通过进程名去找 pid，总是能完成需求的。但是 1.10 之前就是完全没可能用 sidecar 来做这样的事情了。
 

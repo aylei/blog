@@ -204,7 +204,7 @@ tiller-deploy            gcr.io/kubernetes-helm/tiller:v2.12.3
 tmp-shell                netdata/netdata
 ```
 
-这个脚本对 CRD(Custom Definition Resources) 尤其有用, 很多 CRD 没有配置 `additionalPrintColumns` 属性, 导致 `kubectl get` 输出的内容就只有一个名字, 比如 prometheus operator:
+这个脚本对 CRD(Custom Definition Resources) 尤其有用, 很多 CRD 没有配置 `additionalPrintColumns` 属性, 导致 `kubectl get` 输出的内容就只有一个名字, 比如 Prometheus Operator 定义的 Prometheus 对象, 根本没有信息嘛:
 
 ```shell
 $ kg prometheus

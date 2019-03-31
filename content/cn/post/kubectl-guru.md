@@ -58,7 +58,7 @@ EOF
 
 # 2.Context 和 Namespace 切换
 
-一直敲 `--context=xxx -n=xxx` 是很麻烦的事情, 而 kubectl 切换 context 和 namespace 又比较繁琐. 而 [kubectx](https://github.com/ahmetb/kubectx) 就很好的解决了这个问题(结合 [fzf](https://github.com/junegunn/fzf) 体验更棒)
+一直敲 `--context=xxx -n=xxx` 是很麻烦的事情, 而 kubectl 切换 context 和 namespace 又比较繁琐. 好在 [kubectx](https://github.com/ahmetb/kubectx) 项目能很好地解决这个问题(结合 [fzf](https://github.com/junegunn/fzf) 体验更棒)
 
 ```shell
 brew install kubectx

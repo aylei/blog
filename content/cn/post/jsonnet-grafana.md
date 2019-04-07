@@ -3,9 +3,9 @@ title: "Jsonnet 简明教程与应用"
 date: 2019-04-07T13:48:47+08:00
 lastmod: 2019-04-07T13:48:47+08:00
 draft: false
-keywords: []
-tags: []
-categories: []
+keywords: ["jsonnet", "grafana", "kubernetes"]
+tags: ["kubernetes"]
+categories: ["kubernetes"]
 author: "alei"
 toc: true
 comment: true

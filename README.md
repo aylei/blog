@@ -1,6 +1,6 @@
 # aleiwu.com
 
-[![Build Status](https://travis-ci.org/aylei/blog-source.svg?branch=master)](https://travis-ci.org/aylei/blog-source)
+[![Build Status](https://travis-ci.org/aylei/blog.svg?branch=master)](https://travis-ci.org/aylei/blog)
 
 Tech Stack:
 

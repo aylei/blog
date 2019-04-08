@@ -4,7 +4,7 @@ go:
 - master
 
 install:
-- go get https://github.com/gohugoio/hugo
+- go get github.com/gohugoio/hugo
 
 script:
 - hugo

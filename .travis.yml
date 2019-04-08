@@ -4,7 +4,7 @@ go:
 - master
 
 install:
-- go get github.com/gohugoio/hugo
+- GO111MODULE=on go get github.com/gohugoio/hugo
 
 script:
 - hugo

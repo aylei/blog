@@ -165,4 +165,5 @@ aliyun_acs_rds_dashboard_MemoryUsage_up 1
 
 你可能已经看出来了, 这篇文章的本意是打广告(当然, 我已经非常努力地写了我所认为的"干货"!). [aliyun-exporter](https://github.com/aylei/aliyun-exporter) 这个项目其实最开始只是我练习 Python 用的, 但在前几天碰到一位用户告诉我他们在生产中使用了这个项目, 这给了莫大的鼓舞, 正好我还没有在公开场合 Promote 过这个项目, 因此这周就捞一把, 希望项目本身或这些衍生出来的经验中有一样能帮到大家吧.
 
+都看到这了, 不如[点个 star](https://github.com/aylei/aliyun-exporter)? 
 

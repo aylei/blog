@@ -1,6 +1,7 @@
 baseURL = "https://www.aleiwu.com"
-theme = "jane"
-defaultContentLanguage = "cn"
+title = "Aylei's Blog"
+languageCode = "zh-hans"
+theme = "hermit"
 googleAnalytics = "UA-130696996-1"
 enableRobotsTXT = true
 enableEmoji = true
@@ -8,18 +9,37 @@ disqusShortname = "aylei-github-io"
 paginate = 5
 rssLimit = 20
 hasCJKLanguage = true
-pygmentsCodeFences = true # Enable syntax highlighting with GitHub flavoured code fences
-pygmentsUseClasses = true # Use CSS classes to format highlighted code
+pygmentsCodefences = true
+pygmentsUseClasses  = true
 pygmentsCodefencesGuessSyntax = true
-pygmentsOptions = "linenos=table"
-pygmentsStyle = "manni"
+pygmentsStyle = "dracula"
+defaultContentDir = "post"
+
+enableGitInfo = true
 
 [sitemap]
   changefreq = "weekly"
   priority = 0.5
   filename = "sitemap.xml"
 
+[author]
+  name = "吴叶磊"
+
+[taxonomies]
+  tag = "tags"
+
 [params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+
+  gitUrl = "https://github.com/aylei/blog/commit/"
+
+  homeSubtitle = "Reliability, Scalability, Maintainability"
+
+  footerCopyright = ' &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+
   logoImage = "me.jpeg"
   since = "2017"
   homeFullContent = false
@@ -33,90 +53,31 @@ pygmentsStyle = "manni"
   photoswipe = true
   keywords = ["cloudnative","devops","kubernetes","golang","java","programming"]
   description = "Aylei Wu's blog, embracing cloud-native!"
+  [[params.social]]
+    name = "twitter"
+    url = "https://twitter.com/AyleiWu"
 
-[params.social]
-  a-email = "mailto:rayingecho@gmail.com"
-  b-github = "https://github.com/aylei"
-  c-twitter = "https://twitter.com/AyleiWu"
-  e-linkedin = "https://www.linkedin.com/in/yelei-wu-0850a5141/"
-  d-zhihu = "https://www.zhihu.com/people/idanko"
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/aylei"
+
+
+  [[params.social]]
+    name = "email"
+    url = "rayingecho@gmail.com"
 
 [params.meta]
   description = "Aylei's Blog"
   keywords = "cloudnative,devops,kubernetes,prometheus,golang,java,programming"
 
-[params.commentCount.disqus]
-  enable = false
+[menu]
 
-[languages]
-  [languages.cn]
-    contentDir = "content/cn"
-    title = "吴叶磊"
-    weight = 1
-    languageCode = "zh-CN"
-    languageName = "中文"
-    [languages.cn.author]
-      name = "吴叶磊"
-    [[languages.cn.menu.main]]
-      name = "文章"
-      weight = 10
-      identifier = "archives"
-      url = "/post/"
-    [[languages.cn.menu.main]]
-      name = "随笔"
-      weight = 20
-      identifier = "moments"
-      url = "/moments/"
-    [[languages.cn.menu.main]]
-      name = "关于"
-      weight = 30
-      identifier = "about"
-      url = "/about"
-    [[languages.cn.menu.main]]
-      name = "项目"
-      weight = 30
-      identifier = "projects"
-      url = "https://github.com/aylei"
-    [languages.cn.params]
-      dateformat = "2006年1月2日"
-      author = "吴叶磊"
-      contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
-  [languages.en]
-    contentDir = "content/en"
-    title = "Aylei Wu"
-    weight = 2
-    languageCode = "en-US"
-    languageName = "English"
-    [languages.en.author]
-      name = "Aylei Wu"
-    [[languages.en.menu.main]]
-      name = "Archives"
-      weight = 10
-      identifier = "archives"
-      url = "/post/"
-    [[languages.en.menu.main]]
-      name = "About"
-      weight = 30
-      identifier = "about"
-      url = "/about"
-    [[languages.en.menu.main]]
-      name = "Projects"
-      weight = 30
-      identifier = "projects"
-      url = "https://github.com/aylei"
-    [languages.en.params]
-      dateformat = "Jan 2, 2006"
-      author = "Aylei Wu"
-      contentCopyright = '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
+  [[menu.main]]
+    name = "文章"
+    url = "post/"
+    weight = 10
 
-#### merely edit ####
-[params.publicCDN]
-    enable = false
-    jquery = '<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>'
-    slideout = '<script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>'
-    gitmentJS = '<script src="https://cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js" crossorigin="anonymous"></script>'
-    gitmentCSS = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css" crossorigin="anonymous">'
-    photoswipe = '<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.js" integrity="sha256-AC9ChpELidrhGHX23ZU53vmRdz3FhKaN9E28+BbcWBw=" crossorigin="anonymous"></script>'
-    photoswipeUI = '<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js" integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin="anonymous"></script>'
-    photoswipeCSS = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css" integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE=" crossorigin="anonymous">'
-    photoswipeSKIN = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css" integrity="sha256-c0uckgykQ9v5k+IqViZOZKc47Jn7KQil4/MP3ySA3F8=" crossorigin="anonymous">'
+    [[menu.main]]
+    name = "关于"
+    url = "about/"
+    weight = 20

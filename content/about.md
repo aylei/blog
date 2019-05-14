@@ -20,6 +20,6 @@ comment: true
 
 好了，希望这些我自己揣摩的这些东西能够真正对你产生帮助。另外，有一些可能不具有通用价值的个人想法我会单独收录在 [想法](https://aleiwu.com/moments/) 当中，这些内容仅仅是一些小分享，它们不会出现在 RSS 订阅中。
 
-假如你对我写的东西感兴趣，可以在 [Aylei Wu@Twitter](https://twitter.com/AyleiWu) 或 [Yelei Wu@Linkedin](https://www.linkedin.com/in/yelei-wu-0850a5141/) 上找到我，也可以直接在评论区或通过邮件与我交流，祝好！
+假如你对我写的东西感兴趣，可以通过 [Aylei Wu@Twitter](https://twitter.com/AyleiWu) 上或 [邮件](rayingecho@gmail.com) 找到我，也可以直接在评论区与我交流，祝好！
 
-最后，我想向你安利一家公司 [PingCAP](https://www.pingcap.com/)，我们在北京, 上海, 硅谷, 杭州, 成都, 广州, 深圳都有 office 同时支持 Remote, 我们的分布式数据库(TiDB, golang), 分布式高性能强一致存储(TiKV, rust), 大数据分析, EE, QA 以及我所在的 Cloud 团队(Kubernetes)都在招人。假如你有想法一起来做世界领先的开源产品，可以投递简历到 wuyelei@pingcap.com，我会全力帮你内推!
+最后，我想向你安利一家公司 [PingCAP](https://www.pingcap.com/)，我们在北京, 上海, 硅谷, 杭州, 成都, 广州, 深圳都有 office 同时支持 Remote, 我们的分布式数据库(TiDB, golang), 分布式高性能强一致存储(TiKV, rust), 大数据分析, EE, QA 以及我所在的 Cloud 团队(Kubernetes)都在招人。假如你有想法一起来做世界领先的开源产品，可以投递简历到 wuyelei@pingcap.com，我会帮助内推。

@@ -152,7 +152,7 @@ spec:
 ...(其它字段略)
 ```
 
-其实取巧的地方只有一个，那就是把 configmap 的 data 定义成 Named Template，这样就可以很容易地访问这个模板的渲染值并且计算 SHA。
+关键点只有一个，那就是把 configmap 的 data 定义成 Named Template，这样就可以很容易地访问这个模板的渲染值并且计算 SHA。
 
 当然上面只是个示例，正式写 chart 时，还要做好合理的文件切分，比如把 Named Template 放到 `_helpers.tpl`文件中统一维护。
 

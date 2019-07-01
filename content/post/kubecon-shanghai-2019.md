@@ -1,7 +1,7 @@
 +++
 title = "KubeCon 2019 上海 CRD 相关 Session 小记"
 author = ["Wu Yelei"]
-lastmod = 2019-07-01T20:45:08+08:00
+lastmod = 2019-07-02T01:41:51+08:00
 categories = ["kubernetes"]
 draft = false
 weight = 2002
@@ -79,7 +79,7 @@ weight = 2002
 
 接下来就开脑洞了：我们把这三个 service，全部用 k8s 的自定义 controller 来实现怎么样？
 
-{{< figure src="/crd-microservices.png" width="800px" >}}
+{{< figure src="/crd-controllers.png" width="800px" >}}
 
 这时候，我们就可以声明式 API 来开灯了：
 

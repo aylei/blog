@@ -1,10 +1,11 @@
 +++
 title = "KubeCon 2019 上海 CRD 相关 Session 小记"
 author = ["Wu Yelei"]
-lastmod = 2019-07-02T01:41:51+08:00
+lastmod = 2019-07-27T12:19:24+08:00
 categories = ["kubernetes"]
 draft = false
 weight = 2002
+toc = true
 +++
 
 这周借着参加 KubeCon 之名跑到会场划了三天水，最后一天良心发现顿觉需要记录一下，同时也顺带再消化一遍，遂有此文。

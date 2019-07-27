@@ -1,10 +1,11 @@
 +++
 title = "简化 Pod 故障诊断: kubectl-debug 介绍"
 author = ["Wu Yelei"]
-lastmod = 2019-06-01T22:24:59+08:00
+lastmod = 2019-07-27T12:19:07+08:00
 categories = ["kubernetes"]
 draft = false
 weight = 2001
+toc = true
 +++
 
 ## 背景 {#背景}

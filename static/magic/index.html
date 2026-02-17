@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Calculator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            min-height: 100vh;
+            min-height: 100dvh;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+        .calculator {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 16px 24px;
+        }
+        .restart-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: rgba(51, 51, 51, 0.85);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 100;
+            border: none;
+            -webkit-tap-highlight-color: transparent;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .restart-btn:active { background: rgba(100, 100, 100, 0.85); }
+
+        .display-area {
+            text-align: right;
+            padding: 50px 8px 16px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+        .formula-line {
+            color: #fff;
+            font-weight: 200;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            word-break: break-all;
+            max-width: 100%;
+        }
+        .formula-line.small {
+            color: #888;
+            font-size: 26px !important;
+            font-weight: 400;
+            letter-spacing: 0;
+            margin-bottom: 4px;
+        }
+        .result-line {
+            color: #fff;
+            font-weight: 200;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            word-break: break-all;
+            display: none;
+            max-width: 100%;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+        .btn {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: none;
+            font-size: 36px;
+            font-weight: 400;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+        .btn:active { opacity: 0.7; }
+        .btn.locked { pointer-events: none; }
+
+        .btn-number { background: #333; color: #fff; }
+        .btn-number:active { background: #737373; }
+        .btn-function { background: #a5a5a5; color: #000; font-size: 26px; }
+        .btn-function:active { background: #d9d9d9; }
+        .btn-operator { background: #ff9f0a; color: #fff; font-size: 44px; font-weight: 300; }
+        .btn-operator:active { background: #fcc580; }
+        .btn-operator.active { background: #fff; color: #ff9f0a; }
+
+        @media (max-width: 430px) {
+            .calculator { padding: 0 12px 20px; }
+            .buttons { gap: 12px; }
+        }
+        @media (max-height: 680px) {
+            .display-area { min-height: 90px; padding: 20px 8px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <button class="restart-btn" id="restartBtn" aria-label="Restart">&#x21BA;</button>
+    <div class="calculator">
+        <div class="display-area">
+            <div class="formula-line" id="formulaLine">0</div>
+            <div class="result-line" id="resultLine"></div>
+        </div>
+        <div class="buttons" id="buttons">
+            <button class="btn btn-function" data-action="backspace">&#x232B;</button>
+            <button class="btn btn-function" data-action="clear" id="clearBtn">AC</button>
+            <button class="btn btn-function" data-action="percent">%</button>
+            <button class="btn btn-operator" data-action="operator" data-op="÷">÷</button>
+
+            <button class="btn btn-number" data-action="digit" data-val="7">7</button>
+            <button class="btn btn-number" data-action="digit" data-val="8">8</button>
+            <button class="btn btn-number" data-action="digit" data-val="9">9</button>
+            <button class="btn btn-operator" data-action="operator" data-op="×">×</button>
+
+            <button class="btn btn-number" data-action="digit" data-val="4">4</button>
+            <button class="btn btn-number" data-action="digit" data-val="5">5</button>
+            <button class="btn btn-number" data-action="digit" data-val="6">6</button>
+            <button class="btn btn-operator" data-action="operator" data-op="-">&minus;</button>
+
+            <button class="btn btn-number" data-action="digit" data-val="1">1</button>
+            <button class="btn btn-number" data-action="digit" data-val="2">2</button>
+            <button class="btn btn-number" data-action="digit" data-val="3">3</button>
+            <button class="btn btn-operator" data-action="operator" data-op="+">+</button>
+
+            <button class="btn btn-number" data-action="plusminus" style="font-size:26px">+/&minus;</button>
+            <button class="btn btn-number" data-action="digit" data-val="0">0</button>
+            <button class="btn btn-number" data-action="digit" data-val=".">.</button>
+            <button class="btn btn-operator" data-action="equals">=</button>
+        </div>
+    </div>
+
+    <script>
+    // ── State ─────────────────────────────────────────
+    let tokens = [];            // e.g. ['587', '+', '247', '+', '5771']
+    let showingResult = false;
+    let resultStr = '';
+    let clearMode = 'AC';
+
+    // Magic: NONE → AFTER_AC → NUM1 → AFTER_PLUS1 → NUM2 → MAGIC → LOCKED → (back to NONE)
+    let magicPhase = 'NONE';
+    let magicNum1Str = '';
+    let magicNum2Str = '';
+    let magicDigits = [];
+    let magicIndex = 0;
+    let magicTimestamp = '';
+
+    const OPS = ['+', '-', '×', '÷'];
+    const OP_DISPLAY = { '+':'+', '-':'\u2212', '×':'×', '÷':'÷' };
+    function isOp(t) { return OPS.includes(t); }
+    function last() { return tokens.length ? tokens[tokens.length - 1] : null; }
+
+    // ── Speech ────────────────────────────────────────
+    const ZH = {
+        '0':'零','1':'一','2':'二','3':'三','4':'四',
+        '5':'五','6':'六','7':'七','8':'八','9':'九',
+        '+':'加','-':'减','×':'乘','÷':'除',
+        '=':'等于','AC':'归零','C':'清除','.':'点',
+        '+/-':'正负号','%':'百分比'
+    };
+    function speak(k) {
+        const t = ZH[k];
+        if (!t || !('speechSynthesis' in window)) return;
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = 'zh-CN'; u.rate = 1.6;
+        speechSynthesis.speak(u);
+    }
+
+    // ── Util ──────────────────────────────────────────
+    function getMMddHHmm() {
+        const d = new Date(Date.now() + 15000);
+        const p = n => String(n).padStart(2, '0');
+        return p(d.getMonth()+1) + p(d.getDate()) + p(d.getHours()) + p(d.getMinutes());
+    }
+
+    function calc(a, b, op) {
+        switch (op) {
+            case '+': return a + b;
+            case '-': return a - b;
+            case '×': return a * b;
+            case '÷': return b !== 0 ? a / b : null;
+        }
+        return b;
+    }
+
+    function evaluate() {
+        if (!tokens.length) return 0;
+        let r = parseFloat(tokens[0]) || 0;
+        for (let i = 1; i + 1 < tokens.length; i += 2) {
+            const v = calc(r, parseFloat(tokens[i+1]) || 0, tokens[i]);
+            if (v === null) return NaN;
+            r = v;
+        }
+        return r;
+    }
+
+    function commas(s) {
+        if (!s) return '0';
+        const neg = s.startsWith('-');
+        const abs = neg ? s.slice(1) : s;
+        const parts = abs.split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return (neg ? '\u2212' : '') + parts.join('.');
+    }
+
+    function fmtNum(n) {
+        if (!isFinite(n)) return 'Error';
+        return parseFloat(n.toPrecision(12)).toString();
+    }
+
+    function renderFormula(toks) {
+        if (!toks || !toks.length) return '0';
+        return toks.map(t => isOp(t) ? (OP_DISPLAY[t]||t) : commas(t)).join('');
+    }
+
+    // ── Display ───────────────────────────────────────
+    function autoSize(el, text) {
+        const len = text.length;
+        const fs = Math.max(26, Math.min(88, Math.floor(390 / (0.55 * Math.max(len, 1)))));
+        el.style.fontSize = fs + 'px';
+    }
+
+    function updateDisplay() {
+        const fEl = document.getElementById('formulaLine');
+        const rEl = document.getElementById('resultLine');
+        if (showingResult) {
+            const ct = [...tokens];
+            while (ct.length && isOp(ct[ct.length-1])) ct.pop();
+            fEl.textContent = renderFormula(ct);
+            fEl.classList.add('small');
+            const rText = commas(resultStr);
+            rEl.textContent = rText;
+            rEl.style.display = 'block';
+            autoSize(rEl, rText);
+        } else {
+            const fText = renderFormula(tokens);
+            fEl.textContent = fText;
+            fEl.classList.remove('small');
+            autoSize(fEl, fText);
+            rEl.style.display = 'none';
+        }
+    }
+
+    function updateClear() { document.getElementById('clearBtn').textContent = clearMode; }
+
+    function updateLock() {
+        document.querySelectorAll('#buttons .btn').forEach(b => {
+            b.classList.toggle('locked', magicPhase === 'LOCKED' && b.dataset.action !== 'equals');
+        });
+    }
+
+    function hlOp(op) {
+        document.querySelectorAll('.btn-operator').forEach(b => b.classList.remove('active'));
+        if (op) { const e = document.querySelector(`.btn-operator[data-op="${op}"]`); if (e) e.classList.add('active'); }
+    }
+
+    // ── Magic feed ────────────────────────────────────
+    function feedMagic() {
+        if (magicIndex >= magicDigits.length) return;
+        const d = magicDigits[magicIndex];
+        if (magicIndex === 0) tokens.push(d); else tokens[tokens.length-1] += d;
+        speak(d);
+        magicIndex++;
+        if (magicIndex >= magicDigits.length) { magicPhase = 'LOCKED'; updateLock(); }
+        updateDisplay();
+    }
+
+    // ── Handlers ──────────────────────────────────────
+    function handleDigit(v) {
+        if (magicPhase === 'MAGIC') { feedMagic(); return; }
+        if (magicPhase === 'LOCKED') return;
+        speak(v);
+        hlOp(null);
+        if (showingResult) { tokens = []; showingResult = false; }
+
+        const l = last();
+        if (l === null || isOp(l)) {
+            tokens.push(v === '.' ? '0.' : v);
+        } else if (v === '.') {
+            if (!l.includes('.')) tokens[tokens.length-1] += '.';
+        } else {
+            tokens[tokens.length-1] = (l === '0') ? v : l + v;
+        }
+
+        // magic tracking
+        if (v !== '.') {
+            if (magicPhase === 'AFTER_AC')        { magicPhase = 'NUM1'; magicNum1Str = v; }
+            else if (magicPhase === 'NUM1')       { magicNum1Str += v; }
+            else if (magicPhase === 'AFTER_PLUS1') { magicPhase = 'NUM2'; magicNum2Str = v; }
+            else if (magicPhase === 'NUM2')       { magicNum2Str += v; }
+        } else {
+            if (['AFTER_AC','NUM1','AFTER_PLUS1','NUM2'].includes(magicPhase)) magicPhase = 'NONE';
+        }
+        clearMode = 'C'; updateClear(); updateDisplay();
+    }
+
+    function handleOperator(op) {
+        if (magicPhase === 'MAGIC') { feedMagic(); return; }
+        if (magicPhase === 'LOCKED') return;
+        speak(op);
+        if (showingResult) { tokens = [resultStr]; showingResult = false; }
+
+        const l = last();
+        if (l !== null && isOp(l)) { tokens[tokens.length-1] = op; }
+        else { if (l === null) tokens.push('0'); tokens.push(op); }
+
+        // magic tracking
+        if (op === '+') {
+            if (magicPhase === 'NUM1') { magicPhase = 'AFTER_PLUS1'; }
+            else if (magicPhase === 'NUM2') {
+                const n1 = parseInt(magicNum1Str, 10);
+                const n2 = parseInt(magicNum2Str, 10);
+                if (n1 + n2 < 100000) {
+                    magicTimestamp = getMMddHHmm();
+                    const target = parseInt(magicTimestamp, 10);
+                    magicDigits = String(target - n1 - n2).split('');
+                    magicIndex = 0;
+                    magicPhase = 'MAGIC';
+                } else {
+                    magicPhase = 'NONE';
+                }
+            } else { magicPhase = 'NONE'; }
+        } else { if (magicPhase !== 'NONE') magicPhase = 'NONE'; }
+
+        clearMode = 'C'; hlOp(op); updateClear(); updateDisplay();
+    }
+
+    function handleEquals() {
+        if (magicPhase === 'MAGIC') return;
+        if (magicPhase === 'LOCKED') {
+            resultStr = String(parseInt(magicTimestamp, 10));
+            showingResult = true;
+            magicPhase = 'NONE';
+            clearMode = 'AC';
+            hlOp(null); updateClear(); updateLock(); updateDisplay();
+            return;
+        }
+        speak('=');
+        while (tokens.length && isOp(last())) tokens.pop();
+        if (!tokens.length) return;
+        resultStr = fmtNum(evaluate());
+        showingResult = true;
+        magicPhase = 'NONE';
+        clearMode = 'AC';
+        hlOp(null); updateClear(); updateDisplay();
+    }
+
+    function handleClear() {
+        if (magicPhase === 'MAGIC') { feedMagic(); return; }
+        if (magicPhase === 'LOCKED') return;
+        if (clearMode === 'C') {
+            speak('C');
+            if (showingResult) { tokens = []; showingResult = false; }
+            else if (tokens.length && !isOp(last())) tokens.pop();
+            if (magicPhase === 'NUM1') { magicPhase = 'AFTER_AC'; magicNum1Str = ''; }
+            else if (magicPhase === 'NUM2') { magicPhase = 'AFTER_PLUS1'; magicNum2Str = ''; }
+            clearMode = 'AC';
+        } else {
+            speak('AC');
+            tokens = []; showingResult = false; resultStr = '';
+            magicPhase = 'AFTER_AC';
+            magicNum1Str = ''; magicNum2Str = '';
+            magicDigits = []; magicIndex = 0;
+        }
+        hlOp(null); updateClear(); updateLock(); updateDisplay();
+    }
+
+    function handleBackspace() {
+        if (magicPhase === 'MAGIC') { feedMagic(); return; }
+        if (magicPhase === 'LOCKED' || showingResult) return;
+        const l = last();
+        if (!l || isOp(l)) return;
+        const nv = l.slice(0, -1);
+        if (!nv || nv === '-') tokens.pop(); else tokens[tokens.length-1] = nv;
+        if (magicPhase === 'NUM1') { magicNum1Str = magicNum1Str.slice(0,-1); if (!magicNum1Str) magicPhase = 'AFTER_AC'; }
+        else if (magicPhase === 'NUM2') { magicNum2Str = magicNum2Str.slice(0,-1); if (!magicNum2Str) magicPhase = 'AFTER_PLUS1'; }
+        updateDisplay();
+    }
+
+    function handlePlusMinus() {
+        if (magicPhase === 'MAGIC') { feedMagic(); return; }
+        if (magicPhase === 'LOCKED') return;
+        speak('+/-');
+        if (showingResult) {
+            resultStr = fmtNum(-parseFloat(resultStr));
+            tokens = [resultStr]; showingResult = false;
+            updateDisplay(); return;
+        }
+        const l = last();
+        if (l && !isOp(l) && l !== '0') {
+            tokens[tokens.length-1] = l.startsWith('-') ? l.slice(1) : '-' + l;
+            if (magicPhase === 'NUM1' || magicPhase === 'NUM2') magicPhase = 'NONE';
+            updateDisplay();
+        }
+    }
+
+    function handlePercent() {
+        if (magicPhase === 'MAGIC') { feedMagic(); return; }
+        if (magicPhase === 'LOCKED') return;
+        speak('%');
+        const l = last();
+        if (l && !isOp(l)) {
+            tokens[tokens.length-1] = fmtNum(parseFloat(l) / 100);
+            if (magicPhase === 'NUM1' || magicPhase === 'NUM2') magicPhase = 'NONE';
+            updateDisplay();
+        }
+    }
+
+    function handleRestart() {
+        tokens = []; showingResult = false; resultStr = ''; clearMode = 'AC';
+        magicPhase = 'NONE'; magicNum1Str = ''; magicNum2Str = '';
+        magicDigits = []; magicIndex = 0;
+        hlOp(null); updateClear(); updateLock(); updateDisplay();
+    }
+
+    // ── Events ────────────────────────────────────────
+    document.getElementById('buttons').addEventListener('click', e => {
+        const b = e.target.closest('.btn');
+        if (!b || b.classList.contains('locked')) return;
+        switch (b.dataset.action) {
+            case 'digit':     handleDigit(b.dataset.val); break;
+            case 'operator':  handleOperator(b.dataset.op); break;
+            case 'equals':    handleEquals(); break;
+            case 'clear':     handleClear(); break;
+            case 'backspace': handleBackspace(); break;
+            case 'plusminus': handlePlusMinus(); break;
+            case 'percent':   handlePercent(); break;
+        }
+    });
+    document.getElementById('restartBtn').addEventListener('click', handleRestart);
+    updateDisplay();
+    </script>
+</body>
+</html>

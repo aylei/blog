@@ -291,8 +291,7 @@
 
     // ── Handlers ──────────────────────────────────────
     function handleDigit(v) {
-        if (magicPhase === 'MAGIC') { feedMagic(); return; }
-        if (magicPhase === 'LOCKED') return;
+        if (magicPhase === 'MAGIC' || magicPhase === 'LOCKED') return;
         speak(v);
         hlOp(null);
         if (showingResult) { tokens = []; showingResult = false; }
@@ -319,8 +318,7 @@
     }
 
     function handleOperator(op) {
-        if (magicPhase === 'MAGIC') { feedMagic(); return; }
-        if (magicPhase === 'LOCKED') return;
+        if (magicPhase === 'MAGIC' || magicPhase === 'LOCKED') return;
         speak(op);
         if (showingResult) { tokens = [resultStr]; showingResult = false; }
 
@@ -370,8 +368,7 @@
     }
 
     function handleClear() {
-        if (magicPhase === 'MAGIC') { feedMagic(); return; }
-        if (magicPhase === 'LOCKED') return;
+        if (magicPhase === 'MAGIC' || magicPhase === 'LOCKED') return;
         if (clearMode === 'C') {
             speak('C');
             if (showingResult) { tokens = []; showingResult = false; }
@@ -390,8 +387,7 @@
     }
 
     function handleBackspace() {
-        if (magicPhase === 'MAGIC') { feedMagic(); return; }
-        if (magicPhase === 'LOCKED' || showingResult) return;
+        if (magicPhase === 'MAGIC' || magicPhase === 'LOCKED' || showingResult) return;
         const l = last();
         if (!l || isOp(l)) return;
         const nv = l.slice(0, -1);
@@ -402,8 +398,7 @@
     }
 
     function handlePlusMinus() {
-        if (magicPhase === 'MAGIC') { feedMagic(); return; }
-        if (magicPhase === 'LOCKED') return;
+        if (magicPhase === 'MAGIC' || magicPhase === 'LOCKED') return;
         speak('+/-');
         if (showingResult) {
             resultStr = fmtNum(-parseFloat(resultStr));
@@ -419,8 +414,7 @@
     }
 
     function handlePercent() {
-        if (magicPhase === 'MAGIC') { feedMagic(); return; }
-        if (magicPhase === 'LOCKED') return;
+        if (magicPhase === 'MAGIC' || magicPhase === 'LOCKED') return;
         speak('%');
         const l = last();
         if (l && !isOp(l)) {
@@ -438,6 +432,15 @@
     }
 
     // ── Events ────────────────────────────────────────
+    // In magic mode, any tap anywhere (except restart) feeds a magic digit
+    document.addEventListener('click', e => {
+        if (magicPhase === 'MAGIC' && !e.target.closest('#restartBtn')) {
+            e.stopPropagation();
+            feedMagic();
+            return;
+        }
+    }, true);
+
     document.getElementById('buttons').addEventListener('click', e => {
         const b = e.target.closest('.btn');
         if (!b || b.classList.contains('locked')) return;
